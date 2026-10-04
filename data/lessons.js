@@ -1,0 +1,102 @@
+window.KOREAN_LESSONS_DATA = {
+  "lessons": [
+    {
+      "id": "lesson-1",
+      "lessonNumber": 1,
+      "title": "Mở Đầu, 10 Nguyên Âm & 10 Phụ Âm Cơ Bản",
+      "subtitle": "Bảng chữ cái Hangeul • Thuyết Tam Tài • 10 Phụ Âm • 23 Từ Vựng",
+      "date": "2026-10-04",
+      "theory": {
+        "overview": {
+          "name": "Hangeul (한글)",
+          "creator": "Vua Sejong (세종대왕)",
+          "holiday": "Ngày 9 tháng 10 hàng năm",
+          "totalLetters": 40,
+          "vowelsCount": "21 nguyên âm (10 cơ bản + 11 mở rộng)",
+          "consonantsCount": "19 phụ âm (10 cơ bản + 4 bật hơi + 5 căng)"
+        },
+        "syllableRule": {
+          "rule": "1 tiếng luôn được viết gọn và cân đối trong 1 ô vuông.",
+          "parts": "Bắt buộc phải có 2 phần: Phụ Âm Đầu (PÂĐ) + Nguyên Âm (NÂ).",
+          "direction": "Viết và đọc từ TRÁI SANG PHẢI, từ TRÊN XUỐNG DƯỚI.",
+          "silentConsonant": "Phụ âm đầu 'ㅇ' là phụ âm câm (không phát ra âm thanh). Khi muốn đọc một tiếng chỉ có nguyên âm, khi viết vẫn bắt buộc phải viết 'ㅇ' ở đầu để đủ 2 phần."
+        },
+        "spacingRules": [
+          { "rule": "Chữ trong cùng 1 từ", "detail": "Phải viết sát nhau, KHÔNG CÓ khoảng cách (Đúng: 아이; Sai: 아  이)." },
+          { "rule": "Giữa các từ riêng biệt", "detail": "Phải VIẾT CÁCH RA (Đúng: 오이 여우; Sai: 오이여우)." }
+        ],
+        "tamTai": {
+          "name": "Thuyết Tam Tài (Trời - Đất - Người)",
+          "description": "3 yếu tố nền tảng sáng tạo nên toàn bộ nguyên âm:",
+          "elements": [
+            { "symbol": "•", "hantu": "Thiên (Trời)", "meaning": "Mặt trời tròn xoe trên cao" },
+            { "symbol": "ㅡ", "hantu": "Địa (Đất)", "meaning": "Mặt đất bằng phẳng bao la" },
+            { "symbol": "ㅣ", "hantu": "Nhân (Người)", "meaning": "Con người đứng thẳng kiên cường" }
+          ]
+        },
+        "writingRules": [
+          { "rule": "Kích thước PÂĐ", "detail": "Phụ âm đầu thường viết nhỏ hơn nguyên âm một chút (Đúng: 더, 녀, 셔; 조, 교...). Không nên viết quá to hoặc quá nhỏ." },
+          { "rule": "Chiều cao chữ", "detail": "Chữ viết cao tầm 2 - 3 ô ly là vừa vặn, đều nhau." },
+          { "rule": "Căn giữa nét ngắn", "detail": "Phụ âm đầu và nét ngắn phải ngang nhau, canh ngay giữa nguyên âm (Đúng: 아, 오; Sai nếu viết lệch)." },
+          { "rule": "Nét ngắn rõ ràng", "detail": "Các nét phụ ngắn phải viết dứt khoát, không viết dính hoặc quá ngắn." },
+          { "rule": "Không cắt nhau", "detail": "Phụ âm đầu và nguyên âm không được dính hay cắt xuyên qua nhau." },
+          { "rule": "Khoảng cách hợp lý", "detail": "Khoảng cách giữa PÂĐ và NÂ vừa phải, không viết cách nhau quá xa (Sai: ㄷ ㅏ)." }
+        ]
+      },
+      "consonantTheory": {
+        "title": "Bài 2: 10 Phụ Âm Cơ Bản (Nguyên lý sáng tạo)",
+        "principle": "Dựa vào hình dáng của cơ quan phát âm khi nói: Lưỡi, Môi, Răng, Cổ họng.",
+        "note": "Viết chữ đúng hình dạng chuẩn, đúng nét và thứ tự nét viết."
+      },
+      "vowels": [
+        { "id": "v1", "char": "아", "raw": "ㅏ", "roman": "a", "vi": "a", "group": "doc", "strokeHint": "Nét đứng trước, 1 nét ngắn sang PHẢI" },
+        { "id": "v2", "char": "야", "raw": "ㅑ", "roman": "ya", "vi": "ya", "group": "doc", "strokeHint": "Nét đứng trước, 2 nét ngắn sang PHẢI" },
+        { "id": "v3", "char": "어", "raw": "ㅓ", "roman": "eo", "vi": "o / ơ", "group": "doc", "strokeHint": "1 nét ngắn sang TRÁI, rồi nét đứng" },
+        { "id": "v4", "char": "여", "raw": "ㅕ", "roman": "yeo", "vi": "yo / yơ", "group": "doc", "strokeHint": "2 nét ngắn sang TRÁI, rồi nét đứng" },
+        { "id": "v5", "char": "오", "raw": "ㅗ", "roman": "o", "vi": "ô", "group": "ngang", "strokeHint": "1 nét ngắn hướng LÊN, rồi nét ngang" },
+        { "id": "v6", "char": "요", "raw": "ㅛ", "roman": "yo", "vi": "yô", "group": "ngang", "strokeHint": "2 nét ngắn hướng LÊN, rồi nét ngang" },
+        { "id": "v7", "char": "우", "raw": "ㅜ", "roman": "u", "vi": "u", "group": "ngang", "strokeHint": "Nét ngang trước, 1 nét ngắn hướng XUỐNG" },
+        { "id": "v8", "char": "유", "raw": "ㅠ", "roman": "yu", "vi": "yu", "group": "ngang", "strokeHint": "Nét ngang trước, 2 nét ngắn hướng XUỐNG" },
+        { "id": "v9", "char": "으", "raw": "ㅡ", "roman": "eu", "vi": "ư", "group": "ngang", "strokeHint": "1 nét ngang phẳng (Đất)" },
+        { "id": "v10", "char": "이", "raw": "ㅣ", "roman": "i", "vi": "i", "group": "doc", "strokeHint": "1 nét đứng thẳng (Người)" }
+      ],
+      "consonantsAll": [
+        { "id": "c1", "char": "ㅇ", "name": "Hình tròn", "sound": "Không đọc (PÂ câm)", "examples": { "ㅗ": "오", "ㅛ": "요", "ㅓ": "어", "ㅕ": "여" } },
+        { "id": "c2", "char": "ㄱ", "name": "Giống số 7", "sound": "[k / g]", "examples": { "ㅗ": "고", "ㅛ": "교", "ㅓ": "거", "ㅕ": "겨" } },
+        { "id": "c3", "char": "ㄴ", "name": "Giống chữ L", "sound": "[n]", "examples": { "ㅗ": "노", "ㅛ": "뇨", "ㅓ": "너", "ㅕ": "녀" } },
+        { "id": "c4", "char": "ㄷ", "name": "Giống chữ C", "sound": "[t / d]", "examples": { "ㅗ": "도", "ㅛ": "됴", "ㅓ": "더", "ㅕ": "뎌" } },
+        { "id": "c5", "char": "ㄹ", "name": "Giống số 2", "sound": "[l / r]", "examples": { "ㅗ": "로", "ㅛ": "료", "ㅓ": "러", "ㅕ": "려" } },
+        { "id": "c6", "char": "ㅁ", "name": "Vuông / Chữ nhật", "sound": "[m]", "examples": { "ㅗ": "모", "ㅛ": "묘", "ㅓ": "머", "ㅕ": "며" } },
+        { "id": "c7", "char": "ㅂ", "name": "Nửa li nước", "sound": "[p / b]", "examples": { "ㅗ": "보", "ㅛ": "뵤", "ㅓ": "버", "ㅕ": "벼" } },
+        { "id": "c8", "char": "ㅅ", "name": "Sắc rồi huyền", "sound": "[s / sh]", "examples": { "ㅗ": "소", "ㅛ": "쇼", "ㅓ": "서", "ㅕ": "셔" } },
+        { "id": "c9", "char": "ㅈ", "name": "Nét 7 rồi huyền", "sound": "[ch / j]", "examples": { "ㅗ": "조", "ㅛ": "죠", "ㅓ": "저", "ㅕ": "져" } },
+        { "id": "c10", "char": "ㅎ", "name": "Chữ O đội mũ", "sound": "[h]", "examples": { "ㅗ": "호", "ㅛ": "효", "ㅓ": "허", "ㅕ": "혀" } }
+      ],
+      "vocabulary": [
+        { "id": "w_new1", "korean": "이", "vietnamese": "Số 2 (hai)", "pronounce": "i", "category": "Con số", "icon": "2️⃣", "note": "Số đếm thuần Hán" },
+        { "id": "w_new2", "korean": "오", "vietnamese": "Số 5 (năm)", "pronounce": "ô", "category": "Con số", "icon": "5️⃣", "note": "Số đếm thuần Hán" },
+        { "id": "w_new3", "korean": "요", "vietnamese": "ạ (đuôi câu kính ngữ)", "pronounce": "yô", "category": "Giao tiếp", "icon": "🙏", "note": "Viết ở cuối câu để biểu thị sự lịch sự, lễ phép" },
+        { "id": "w_new4", "korean": "아이", "vietnamese": "Em bé, trẻ con", "pronounce": "a-i", "category": "Con người", "icon": "👶", "note": "Viết sát nhau không cách: 아이" },
+        { "id": "w_new5", "korean": "오이", "vietnamese": "Quả dưa leo, dưa chuột", "pronounce": "ô-i", "category": "Thực vật", "icon": "🥒", "note": "Món rau củ thanh mát giòn ngon" },
+        { "id": "w_new6", "korean": "여우", "vietnamese": "Con cáo", "pronounce": "yơ-u", "category": "Động vật", "icon": "🦊", "note": "Loài vật thông minh nhanh nhẹn" },
+        { "id": "w_new7", "korean": "우유", "vietnamese": "Sữa bò, sữa tươi", "pronounce": "u-yu", "category": "Đồ uống", "icon": "🥛", "note": "Thức uống bổ dưỡng cho bé mỗi ngày" },
+        { "id": "w1", "korean": "자", "vietnamese": "Cây thước kẻ", "pronounce": "cha", "category": "Đồ vật", "icon": "📏", "note": "Vật dụng học tập quen thuộc" },
+        { "id": "w2", "korean": "저", "vietnamese": "Tôi, em, cháu", "pronounce": "chơ", "category": "Xưng hô", "icon": "🙋", "note": "Đại từ xưng hô lịch sự, khiêm tốn" },
+        { "id": "w3", "korean": "가수", "vietnamese": "Ca sĩ", "pronounce": "ka-su", "category": "Nghề nghiệp", "icon": "🎤", "note": "Người biểu diễn bài hát" },
+        { "id": "w4", "korean": "호주", "vietnamese": "Nước Úc", "pronounce": "hô-chu", "category": "Địa danh", "icon": "🦘", "note": "Quốc gia chuột túi Australia" },
+        { "id": "w5", "korean": "여기", "vietnamese": "Ở đây, chỗ này", "pronounce": "yơ-ki", "category": "Vị trí", "icon": "📍", "note": "Chỉ địa điểm gần người nói" },
+        { "id": "w6", "korean": "어느 나라", "vietnamese": "Nước nào?", "pronounce": "ơ-nư na-ra", "category": "Câu hỏi", "icon": "🌏", "note": "Dùng khi hỏi quốc tịch hoặc đất nước" },
+        { "id": "w7", "korean": "바다", "vietnamese": "Biển", "pronounce": "pa-da", "category": "Thiên nhiên", "icon": "🌊", "note": "Bãi biển trong xanh lượn sóng" },
+        { "id": "w8", "korean": "기자", "vietnamese": "Nhà báo, phóng viên", "pronounce": "ki-cha", "category": "Nghề nghiệp", "icon": "📰", "note": "Người viết tin tức thời sự" },
+        { "id": "w9", "korean": "아버지", "vietnamese": "Bố, ba, cha", "pronounce": "a-bơ-ji", "category": "Gia đình", "icon": "👨", "note": "Cách gọi người cha trang trọng, lễ phép" },
+        { "id": "w10", "korean": "어머니", "vietnamese": "Mẹ, má", "pronounce": "ơ-mơ-ni", "category": "Gia đình", "icon": "👩", "note": "Cách gọi người mẹ kính trọng" },
+        { "id": "w11", "korean": "요리사", "vietnamese": "Đầu bếp", "pronounce": "yô-ri-sa", "category": "Nghề nghiệp", "icon": "👨‍🍳", "note": "Người nấu các món ăn ngon" },
+        { "id": "w12", "korean": "이야기", "vietnamese": "Câu chuyện", "pronounce": "i-ya-ki", "category": "Giao tiếp", "icon": "📖", "note": "Chuyện kể, tâm sự, trò chuyện" },
+        { "id": "w13", "korean": "아니요", "vietnamese": "Dạ không, Không phải", "pronounce": "a-ni-yô", "category": "Giao tiếp", "icon": "🙅", "note": "Từ chối, phủ định lịch sự (NO)" },
+        { "id": "w14", "korean": "구두", "vietnamese": "Đôi giày tây / Giày da", "pronounce": "ku-du", "category": "Đồ vật", "icon": "👞", "note": "Giày trang trọng đi làm, đi tiệc" },
+        { "id": "w15", "korean": "가지", "vietnamese": "Quả cà tím", "pronounce": "ka-ji", "category": "Thực vật", "icon": "🍆", "note": "Loại rau củ màu tím thơm ngon" },
+        { "id": "w16", "korean": "모기", "vietnamese": "Con muỗi", "pronounce": "mô-ki", "category": "Động vật", "icon": "🦟", "note": "Loài côn trùng hay vo ve đốt ngứa" }
+      ]
+    }
+  ]
+};

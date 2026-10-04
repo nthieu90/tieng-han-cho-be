@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Bé Học Tiếng Hàn - Hangeul Vui Nhộn</title>
+  
+  <!-- Phông chữ Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Tiếng Hàn Bé">
+</head>
+<body>
+
+  <!-- Header Thanh Điều Hướng -->
+  <header>
+    <div class="nav-container">
+      <div class="logo-group">
+        <div class="logo-badge">한</div>
+        <div class="logo-text">
+          <h1>Bé Học Tiếng Hàn</h1>
+          <p>Bài 1: 10 Nguyên Âm & Từ Vựng Đầu Đời</p>
+        </div>
+      </div>
+
+      <!-- Menu chuyển đổi tính năng -->
+      <nav class="tabs-nav">
+        <button class="tab-btn active" data-tab="tab-dictation">
+          <span>✍️</span> <strong>Đọc Chép Vở</strong>
+        </button>
+        <button class="tab-btn" data-tab="tab-flashcard">
+          <span>🎴</span> <strong>Flashcards 3D</strong>
+        </button>
+        <button class="tab-btn" data-tab="tab-builder">
+          <span>🧩</span> <strong>Ghép Chữ</strong>
+        </button>
+        <button class="tab-btn" data-tab="tab-quiz">
+          <span>🎮</span> <strong>Đố Vui</strong>
+        </button>
+        <button class="tab-btn" data-tab="tab-theory">
+          <span>💡</span> <strong>Lý Thuyết</strong>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Thân Ứng Dụng -->
+  <main>
+
+    <!-- ================= TAB 1: ĐỌC CHÍNH TẢ CHÉP VÀO VỞ ================= -->
+    <section id="tab-dictation" class="tab-pane active">
+      <div class="section-header">
+        <h2>✍️ Giáo Viên Ảo Đọc Chính Tả Chép Vở</h2>
+        <p>Máy sẽ phát âm ngẫu nhiên các từ. Bé lắng nghe và nắn nót viết vào vở kẻ ô ly nhé!</p>
+      </div>
+
+      <div class="dictation-container">
+        <!-- Thanh Tùy Chỉnh Cấu Hình -->
+        <div class="dictation-controls-bar">
+          <div class="control-item">
+            <label for="dict-pool-select">📚 Phạm vi đọc:</label>
+            <select id="dict-pool-select">
+              <option value="vocab">23 Từ vựng thực hành</option>
+              <option value="vowels">10 Nguyên âm cơ bản</option>
+              <option value="all">Tất cả (33 từ & âm)</option>
+            </select>
+          </div>
+
+          <div class="control-item">
+            <label for="dict-interval-slider">⏱️ Thời gian chờ chép: <span id="dict-interval-val" class="slider-val">8s</span></label>
+            <input type="range" id="dict-interval-slider" min="3" max="25" value="8" step="1">
+          </div>
+
+          <div class="control-item">
+            <label for="dict-repeat-select">🔁 Số lần đọc mỗi từ:</label>
+            <select id="dict-repeat-select">
+              <option value="2">Đọc 2 lần (Khuyên dùng)</option>
+              <option value="1">Đọc 1 lần (Luyện phản xạ)</option>
+            </select>
+          </div>
+
+          <div class="control-item" style="justify-content: center;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="checkbox" id="dict-hide-toggle" checked style="width: 18px; height: 18px;">
+              <span>🙈 Ẩn chữ (để bé tự viết)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Sân Khấu Hiển Thị Đang Đọc -->
+        <div class="dictation-stage">
+          <div id="dict-word-box" class="dictation-word-box">Sẵn Sàng!</div>
+          <div id="dict-subhint" class="dictation-subhint">Bấm "Bắt Đầu" để giáo viên đọc cho bé chép vào vở</div>
+
+          <!-- Đồng Hồ Đếm Ngược Vòng Tròn -->
+          <div class="timer-container">
+            <svg class="timer-svg" viewBox="0 0 100 100">
+              <circle class="timer-circle-bg" cx="50" cy="50" r="40"></circle>
+              <circle id="timer-progress" class="timer-circle-progress" cx="50" cy="50" r="40"></circle>
+            </svg>
+            <div id="timer-num" class="timer-number">8</div>
+          </div>
+        </div>
+
+        <!-- Các Nút Thao Tác -->
+        <div class="dictation-action-group">
+          <button id="dict-start-btn" class="btn-main">
+            <span>▶️ Bắt Đầu Đọc</span>
+          </button>
+          <button id="dict-pause-btn" class="btn-secondary" style="display: none;">
+            <span>⏸️ Tạm Dừng</span>
+          </button>
+          <button id="dict-repeat-current-btn" class="btn-secondary" style="display: none;">
+            <span>🔊 Đọc Lại (Chuẩn)</span>
+          </button>
+          <button id="dict-repeat-slow-btn" class="card-audio-btn-slow" style="display: none;">
+            <span>🐢 Đọc Chậm</span>
+          </button>
+          <button id="dict-stop-btn" class="btn-danger" style="display: none;">
+            <span>⏹️ Dừng Lại & Dò Bài</span>
+          </button>
+        </div>
+
+        <!-- Danh Sách Lịch Sử Đã Đọc Để Dò Lại Vở -->
+        <div class="dictation-history-box">
+          <div class="history-title">
+            <span>📝 Danh sách từ đã đọc <small id="dict-history-count" style="color: var(--primary);">(0 từ)</small></span>
+            <small style="font-size: 0.8rem; font-weight: 600; color: #64748B;">(Bấm vào từ để nghe lại)</small>
+          </div>
+          <div id="dict-history-list" class="history-tags">
+            <!-- Danh sách các thẻ từ vựng đã đọc được thêm tự động tại đây -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 2: FLASHCARDS 3D ================= -->
+    <section id="tab-flashcard" class="tab-pane">
+      <div class="section-header">
+        <h2>🎴 Thẻ Học Thông Minh (Flashcard 3D)</h2>
+        <p>Chạm vào thẻ để lật xem hình ảnh và nghĩa tiếng Việt</p>
+      </div>
+
+      <div class="flashcards-wrapper">
+        <!-- Bộ lọc thẻ -->
+        <div class="filter-pills">
+          <button class="pill-btn active" data-filter="all">Tất Cả (33)</button>
+          <button class="pill-btn" data-filter="vowel">10 Nguyên Âm</button>
+          <button class="pill-btn" data-filter="vocab">23 Từ Vựng</button>
+        </div>
+
+        <!-- Sân khấu thẻ 3D -->
+        <div id="card-stage" class="card-stage">
+          <div class="flashcard-inner">
+            <!-- Mặt Trước -->
+            <div class="card-face card-front">
+              <span id="card-tag" class="card-tag">10 Nguyên Âm</span>
+              <div id="card-korean-front" class="card-korean">아</div>
+              <div class="audio-btn-group">
+                <button id="card-audio-btn" class="card-audio-btn" title="Nghe phát âm chuẩn (1.0x)">
+                  <span>🔊</span>
+                </button>
+                <button id="card-audio-slow-btn" class="card-audio-btn-slow" title="Nghe phát âm chậm (0.6x)">
+                  <span>🐢 Nghe Chậm</span>
+                </button>
+              </div>
+              <div id="card-hint" class="card-hint">Chạm để lật xem nghĩa 👉</div>
+            </div>
+
+            <!-- Mặt Sau -->
+            <div class="card-face card-back">
+              <div id="card-back-icon" class="card-icon">👨</div>
+              <div id="card-back-vietnamese" class="card-vietnamese">Bố, ba</div>
+              <div id="card-back-pronounce" class="card-pronounce">Đọc: "a-bơ-ji"</div>
+              <div id="card-back-note" class="card-note">Cách gọi kính trọng</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Điều Hướng Thẻ -->
+        <div class="flashcard-nav">
+          <button id="card-prev-btn" class="btn-secondary">
+            <span>⬅️ Thẻ Trước</span>
+          </button>
+          <div id="card-counter" class="card-counter">1 / 33</div>
+          <button id="card-next-btn" class="btn-main">
+            <span>Thẻ Tiếp ➡️</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 3: GHÉP VẦN TRONG Ô VUÔNG ================= -->
+    <section id="tab-builder" class="tab-pane">
+      <div class="section-header">
+        <h2>🧩 Phòng Thí Nghiệm Ghép Chữ Kỳ Diệu</h2>
+        <p>Bé chọn 1 Phụ Âm Đầu và 1 Nguyên Âm để xem chữ kết hợp hoàn chỉnh nhé!</p>
+      </div>
+
+      <div class="builder-grid">
+        <!-- Chọn Phụ Âm -->
+        <div class="builder-panel">
+          <h3>1. Chọn Phụ Âm Đầu (PÂĐ):</h3>
+          <div id="builder-consonant-grid" class="char-pick-grid">
+            <!-- Nút chọn phụ âm sẽ nạp tự động -->
+          </div>
+        </div>
+
+        <!-- Chọn Nguyên Âm -->
+        <div class="builder-panel">
+          <h3>2. Chọn Nguyên Âm (NÂ):</h3>
+          <div id="builder-vowel-grid" class="char-pick-grid">
+            <!-- Nút chọn nguyên âm sẽ nạp tự động -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Kết quả ghép ô vuông -->
+      <div class="builder-result-box">
+        <h3 style="font-size: 1rem; color: #475569; margin-bottom: 12px;">Chữ Hoành Chỉnh Trong Ô Vuông:</h3>
+        <div id="builder-result-cell" class="grid-paper-cell">아</div>
+        <p id="builder-result-roman" style="font-weight: 700; color: #1E293B; margin-bottom: 16px;">Ghép: [ㅇ] + [ㅏ] = "아"</p>
+        <div class="audio-btn-group">
+          <button id="builder-speak-btn" class="btn-main">
+            <span>🔊 Nghe Phát Âm</span>
+          </button>
+          <button id="builder-speak-slow-btn" class="card-audio-btn-slow">
+            <span>🐢 Nghe Chậm</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 4: ĐỐ VUI (MINIGAME) ================= -->
+    <section id="tab-quiz" class="tab-pane">
+      <div class="section-header">
+        <h2>🎮 Trò Chơi Đố Vui Củng Cố Trí Nhớ</h2>
+        <p>Chọn chế độ chơi phù hợp để vừa nghe vừa nhận diện mặt chữ tiếng Hàn nhé!</p>
+      </div>
+
+      <div class="quiz-container">
+        <!-- Chuyển đổi chế độ chơi -->
+        <div class="quiz-mode-selector">
+          <button id="quiz-mode-listen-btn" class="pill-btn active">
+            <span>🔊</span> Nghe Âm ➔ Chọn Nghĩa TV
+          </button>
+          <button id="quiz-mode-meaning-btn" class="pill-btn">
+            <span>🇻🇳</span> Cho Nghĩa TV ➔ Chọn Chữ Hàn
+          </button>
+        </div>
+
+        <div class="quiz-score-bar">
+          <span id="quiz-question-num">Câu hỏi #1</span>
+          <span id="quiz-score-val" style="color: var(--secondary); font-size: 1.2rem;">0 điểm</span>
+        </div>
+
+        <!-- Khu vực hiển thị đề bài -->
+        <div id="quiz-prompt-area">
+          <!-- Sẽ được điền theo chế độ bằng JS -->
+        </div>
+
+        <div id="quiz-options-grid" class="quiz-options-grid">
+          <!-- 4 nút trắc nghiệm sinh tự động -->
+        </div>
+
+        <div style="margin-top: 24px;">
+          <button id="quiz-next-btn" class="btn-main" style="display: none;">
+            <span>Câu Tiếp Theo ➡️</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 5: LÝ THUYẾT VỞ HỌC ================= -->
+    <section id="tab-theory" class="tab-pane">
+      <div class="section-header">
+        <h2>💡 Khám Phá Kiến Thức & Thuyết Tam Tài</h2>
+        <p>Bí mật nguồn gốc và quy tắc viết chữ đẹp trong vở</p>
+      </div>
+
+      <div id="theory-content">
+        <!-- Nội dung lý thuyết render từ JSON -->
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Cùng Bé Chinh Phục Tiếng Hàn Mỗi Ngày • Cập Nhật Tự Động Từ Vở Bài Học</p>
+  </footer>
+
+  <!-- Dữ liệu bài học nạp trước để chạy offline -->
+  <script src="data/lessons.js"></script>
+  <!-- Logic ứng dụng -->
+  <script src="js/app.js"></script>
+</body>
+</html>
