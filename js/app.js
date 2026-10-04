@@ -965,6 +965,43 @@ function renderTheoryModule() {
       </div>
     </div>
 
+    <!-- MỤC MỚI: SOI ĐIỂM KHÁC NHAU (CHỐNG NHẦM LẪN) -->
+    ${AppState.currentLesson.lookAlikePairs && AppState.currentLesson.lookAlikePairs.length > 0 ? `
+      <div class="theory-card">
+        <h3>🔍 Soi Điểm Khác Biệt (Bí Kíp Chống Nhầm Lẫn Cặp Từ)</h3>
+        <p style="color: #64748B; margin-bottom: 14px;">Bí kíp độc quyền với mẹo hình ảnh giúp bé phân biệt ngay các từ viết và đọc gần giống nhau:</p>
+        
+        <div class="pair-duel-container">
+          ${AppState.currentLesson.lookAlikePairs.map(p => `
+            <div class="pair-card">
+              <div class="pair-title">⚡ ${p.title}</div>
+              <div class="pair-side-by-side">
+                <div class="pair-col col-a">
+                  <div style="font-size: 1.8rem;">${p.wordA.icon}</div>
+                  <div class="pair-korean-word">${p.wordA.korean}</div>
+                  <div style="font-weight: 700; color: #475569;">${p.wordA.vietnamese}</div>
+                  <button class="pill-btn" style="margin-top: 8px; font-size: 0.82rem; padding: 4px 10px;" onclick="VoiceService.speak('${p.wordA.korean}', 0.85)">🔊 Nghe</button>
+                </div>
+                <div class="pair-col col-b">
+                  <div style="font-size: 1.8rem;">${p.wordB.icon}</div>
+                  <div class="pair-korean-word">${p.wordB.korean}</div>
+                  <div style="font-weight: 700; color: #475569;">${p.wordB.vietnamese}</div>
+                  <button class="pill-btn" style="margin-top: 8px; font-size: 0.82rem; padding: 4px 10px;" onclick="VoiceService.speak('${p.wordB.korean}', 0.85)">🔊 Nghe</button>
+                </div>
+              </div>
+              <div class="pair-story-box">
+                <strong>💡 Mẹo liên tưởng hình ảnh:</strong><br>
+                ${p.storyTip}
+              </div>
+              <div style="margin-top: 10px;">
+                <span class="pair-rule-tag">🔑 Khóa phân biệt: ${p.rule}</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
+
     <div class="theory-card">
       <h3>✍️ Lưu Ý Giúp Bé Viết Đẹp Chuẩn Ô Ly</h3>
       <div class="rule-list">
@@ -978,69 +1015,126 @@ function renderTheoryModule() {
   `;
 }
 
-// 10. MODULE MINIGAME: 2 CHẾ ĐỘ (NGHE ÂM ➔ CHỌN NGHĨA & CHO NGHĨA ➔ CHỌN CHỮ HÀN)
+// 10. MODULE MINIGAME: 3 CHẾ ĐỘ (NGHE ÂM ➔ NGHĨA, NGHĨA ➔ CHỮ HÀN & CẶP SONG SINH)
 function setupQuizModule() {
   const modeListenBtn = document.getElementById('quiz-mode-listen-btn');
   const modeMeaningBtn = document.getElementById('quiz-mode-meaning-btn');
+  const modeDuelBtn = document.getElementById('quiz-mode-duel-btn');
   const promptArea = document.getElementById('quiz-prompt-area');
   const optionsGrid = document.getElementById('quiz-options-grid');
   const scoreVal = document.getElementById('quiz-score-val');
   const questionNum = document.getElementById('quiz-question-num');
   const nextQBtn = document.getElementById('quiz-next-btn');
 
+  function updateQuizModeButtons(mode) {
+    [modeListenBtn, modeMeaningBtn, modeDuelBtn].forEach(b => { if (b) b.classList.remove('active'); });
+    if (mode === 'duel' && modeDuelBtn) {
+      modeDuelBtn.classList.add('active');
+    } else if (mode === 'meaning' && modeMeaningBtn) {
+      modeMeaningBtn.classList.add('active');
+    } else if (modeListenBtn) {
+      modeListenBtn.classList.add('active');
+    }
+  }
+
   // Nạp chế độ quiz đã lưu từ LocalStorage
   const savedQuizMode = StorageService.get('korean_quiz_mode', 'listen');
   AppState.quiz.mode = savedQuizMode;
-  if (savedQuizMode === 'meaning') {
-    modeMeaningBtn.classList.add('active');
-    modeListenBtn.classList.remove('active');
-  } else {
-    modeListenBtn.classList.add('active');
-    modeMeaningBtn.classList.remove('active');
+  updateQuizModeButtons(savedQuizMode);
+
+  // Chuyển đổi qua lại giữa 3 chế độ
+  if (modeListenBtn) {
+    modeListenBtn.onclick = () => {
+      AppState.quiz.mode = 'listen';
+      StorageService.set('korean_quiz_mode', 'listen');
+      updateQuizModeButtons('listen');
+      generateQuestion();
+    };
   }
 
-  // Chuyển đổi qua lại giữa 2 chế độ
-  modeListenBtn.onclick = () => {
-    modeListenBtn.classList.add('active');
-    modeMeaningBtn.classList.remove('active');
-    AppState.quiz.mode = 'listen';
-    StorageService.set('korean_quiz_mode', 'listen');
-    generateQuestion();
-  };
+  if (modeMeaningBtn) {
+    modeMeaningBtn.onclick = () => {
+      AppState.quiz.mode = 'meaning';
+      StorageService.set('korean_quiz_mode', 'meaning');
+      updateQuizModeButtons('meaning');
+      generateQuestion();
+    };
+  }
 
-  modeMeaningBtn.onclick = () => {
-    modeMeaningBtn.classList.add('active');
-    modeListenBtn.classList.remove('active');
-    AppState.quiz.mode = 'meaning';
-    StorageService.set('korean_quiz_mode', 'meaning');
-    generateQuestion();
-  };
+  if (modeDuelBtn) {
+    modeDuelBtn.onclick = () => {
+      AppState.quiz.mode = 'duel';
+      StorageService.set('korean_quiz_mode', 'duel');
+      updateQuizModeButtons('duel');
+      generateQuestion();
+    };
+  }
 
   function generateQuestion() {
-    const vocabPool = AppState.allCards.filter(c => c.type === 'vocab');
-    if (vocabPool.length < 4) return;
-
-    // Chọn ngẫu nhiên đáp án đúng
-    const correct = vocabPool[Math.floor(Math.random() * vocabPool.length)];
-    
-    // Chọn 3 đáp án sai
-    const wrongs = [];
-    while (wrongs.length < 3) {
-      const candidate = vocabPool[Math.floor(Math.random() * vocabPool.length)];
-      if (candidate.korean !== correct.korean && !wrongs.some(w => w.korean === candidate.korean)) {
-        wrongs.push(candidate);
-      }
-    }
-
-    const allOptions = [correct, ...wrongs].sort(() => Math.random() - 0.5);
-    AppState.quiz.currentQuestion = correct;
-    AppState.quiz.options = allOptions;
-
     questionNum.textContent = `Câu hỏi #${AppState.quiz.currentQuestionIndex}`;
     nextQBtn.style.display = 'none';
     optionsGrid.innerHTML = '';
 
-    if (AppState.quiz.mode === 'listen') {
+    if (AppState.quiz.mode === 'duel') {
+      // CHẾ ĐỘ 3 (ĐẶC BIỆT): THÁCH THỨC CẶP SONG SINH (CHỐNG NHẦM LẪN)
+      const pairs = AppState.currentLesson?.lookAlikePairs || [];
+      if (pairs.length === 0) {
+        AppState.quiz.mode = 'listen';
+        generateQuestion();
+        return;
+      }
+
+      optionsGrid.className = 'quiz-options-grid quiz-duel-grid';
+      const pair = pairs[Math.floor(Math.random() * pairs.length)];
+      const isA = Math.random() > 0.5;
+      const correct = isA ? pair.wordA : pair.wordB;
+      const wrong = isA ? pair.wordB : pair.wordA;
+      const allOptions = [correct, wrong].sort(() => Math.random() - 0.5);
+
+      AppState.quiz.currentQuestion = correct;
+      AppState.quiz.currentPair = pair;
+      AppState.quiz.options = allOptions;
+
+      promptArea.innerHTML = `
+        <div class="quiz-prompt-box" style="background: linear-gradient(135deg, #FFF1F2 0%, #FEF2F2 100%); border-color: #FECDD3;">
+          <div style="display: inline-block; background: #FFE4E6; color: #E11D48; font-size: 0.85rem; font-weight: 800; padding: 4px 14px; border-radius: 999px; margin-bottom: 8px;">
+            🥊 ĐẤU TRƯỜNG CẶP SONG SINH
+          </div>
+          <div class="quiz-prompt-icon">${correct.icon}</div>
+          <div class="quiz-prompt-vi">${correct.vietnamese}</div>
+          <div style="margin-top: 10px; font-weight: 800; color: #E11D48; font-size: 1.05rem;">
+            👉 Đố bé chữ nào đúng, không bị nhầm lẫn nhé?
+          </div>
+          <p style="color: #64748B; font-size: 0.85rem; margin-top: 4px;">(${pair.title})</p>
+        </div>
+      `;
+
+      allOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-opt-btn quiz-duel-btn';
+        btn.innerHTML = `<span>${opt.korean}</span>`;
+        btn.onclick = () => handleAnswer(opt, btn);
+        optionsGrid.appendChild(btn);
+      });
+
+    } else if (AppState.quiz.mode === 'listen') {
+      optionsGrid.className = 'quiz-options-grid';
+      const vocabPool = AppState.allCards.filter(c => c.type === 'vocab');
+      if (vocabPool.length < 4) return;
+
+      const correct = vocabPool[Math.floor(Math.random() * vocabPool.length)];
+      const wrongs = [];
+      while (wrongs.length < 3) {
+        const candidate = vocabPool[Math.floor(Math.random() * vocabPool.length)];
+        if (candidate.korean !== correct.korean && !wrongs.some(w => w.korean === candidate.korean)) {
+          wrongs.push(candidate);
+        }
+      }
+
+      const allOptions = [correct, ...wrongs].sort(() => Math.random() - 0.5);
+      AppState.quiz.currentQuestion = correct;
+      AppState.quiz.options = allOptions;
+
       // CHẾ ĐỘ 1: Nghe âm thanh -> Chọn hình/nghĩa TV
       promptArea.innerHTML = `
         <div style="margin: 12px 0;">
@@ -1075,12 +1169,29 @@ function setupQuizModule() {
       setTimeout(() => VoiceService.speak(correct.korean, 0.9), 300);
 
     } else {
-      // CHẾ ĐỘ 2 (Yêu cầu mới): Cho nghĩa tiếng Việt -> Chọn chữ tiếng Hàn tương ứng
+      optionsGrid.className = 'quiz-options-grid';
+      const vocabPool = AppState.allCards.filter(c => c.type === 'vocab');
+      if (vocabPool.length < 4) return;
+
+      const correct = vocabPool[Math.floor(Math.random() * vocabPool.length)];
+      const wrongs = [];
+      while (wrongs.length < 3) {
+        const candidate = vocabPool[Math.floor(Math.random() * vocabPool.length)];
+        if (candidate.korean !== correct.korean && !wrongs.some(w => w.korean === candidate.korean)) {
+          wrongs.push(candidate);
+        }
+      }
+
+      const allOptions = [correct, ...wrongs].sort(() => Math.random() - 0.5);
+      AppState.quiz.currentQuestion = correct;
+      AppState.quiz.options = allOptions;
+
+      // CHẾ ĐỘ 2: Cho nghĩa tiếng Việt -> Chọn chữ tiếng Hàn tương ứng
       promptArea.innerHTML = `
         <div class="quiz-prompt-box">
           <div class="quiz-prompt-icon">${correct.icon}</div>
           <div class="quiz-prompt-vi">${correct.vietnamese}</div>
-          <p style="color: #6B7280; font-weight: 600; margin-top: 6px;">(${correct.note})</p>
+          <p style="color: #6B7280; font-weight: 600; margin-top: 6px;">(${correct.note || ''})</p>
           <div style="margin-top: 10px; font-weight: 800; color: #4F46E5;">👉 Đố bé chữ tiếng Hàn nào dưới đây tương ứng?</div>
         </div>
       `;
@@ -1109,16 +1220,42 @@ function setupQuizModule() {
       AppState.quiz.score += 10;
       scoreVal.textContent = `${AppState.quiz.score} điểm`;
       VoiceService.speak("정답입니다!", 1.0); // Khen tiếng Hàn
+
+      if (AppState.quiz.mode === 'duel' && AppState.quiz.currentPair) {
+        const tipDiv = document.createElement('div');
+        tipDiv.className = 'pair-story-box';
+        tipDiv.style.marginTop = '16px';
+        tipDiv.innerHTML = `
+          <strong>✨ Bé siêu quá! Chuẩn xác rồi:</strong><br>
+          ${AppState.quiz.currentPair.storyTip}<br><br>
+          <span class="pair-rule-tag">🔑 Khóa phân biệt: ${AppState.quiz.currentPair.rule}</span>
+        `;
+        promptArea.appendChild(tipDiv);
+      }
     } else {
       btnElement.classList.add('wrong');
       // Highlight đáp án đúng
       allBtns.forEach(b => {
-        if (b.innerText.includes(correct.korean) || b.innerText.includes(correct.vietnamese)) {
+        if (b.innerText.includes(correct.korean) || (correct.vietnamese && b.innerText.includes(correct.vietnamese))) {
           b.classList.add('correct');
         }
       });
       // Đọc lại từ đúng
       setTimeout(() => VoiceService.speak(correct.korean, 0.85), 600);
+
+      if (AppState.quiz.mode === 'duel' && AppState.quiz.currentPair) {
+        const tipDiv = document.createElement('div');
+        tipDiv.className = 'pair-story-box';
+        tipDiv.style.marginTop = '16px';
+        tipDiv.style.borderLeftColor = '#EF4444';
+        tipDiv.style.background = '#FEF2F2';
+        tipDiv.innerHTML = `
+          <strong style="color: #991B1B;">💡 Mẹo giúp bé không nhầm lần sau:</strong><br>
+          <span style="color: #991B1B;">${AppState.quiz.currentPair.storyTip}</span><br><br>
+          <span class="pair-rule-tag" style="background: #FEE2E2; color: #991B1B;">🔑 Khóa phân biệt: ${AppState.quiz.currentPair.rule}</span>
+        `;
+        promptArea.appendChild(tipDiv);
+      }
     }
     nextQBtn.style.display = 'inline-flex';
   }

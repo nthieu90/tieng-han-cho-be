@@ -4,7 +4,7 @@ window.KOREAN_LESSONS_DATA = {
       "id": "lesson-1",
       "lessonNumber": 1,
       "title": "Mở Đầu, 10 Nguyên Âm & 10 Phụ Âm Cơ Bản",
-      "subtitle": "Bảng chữ cái Hangeul • Thuyết Tam Tài • Khẩu hình miệng • 23 Từ Vựng",
+      "subtitle": "Bảng chữ cái Hangeul • Thuyết Tam Tài • Khẩu hình miệng • 23 Từ Vựng • Chống nhầm lẫn",
       "date": "2026-10-04",
       "theory": {
         "overview": {
@@ -43,6 +43,40 @@ window.KOREAN_LESSONS_DATA = {
           { "rule": "Khoảng cách hợp lý", "detail": "Khoảng cách giữa PÂĐ và NÂ vừa phải, không viết cách nhau quá xa (Sai: ㄷ ㅏ)." }
         ]
       },
+      "lookAlikePairs": [
+        {
+          "id": "pair-1",
+          "title": "Cặp Đảo Chữ: Con Cáo 🦊 vs Sữa Bò 🥛",
+          "wordA": { "korean": "여우", "vietnamese": "Con cáo", "icon": "🦊", "highlight": "여" },
+          "wordB": { "korean": "우유", "vietnamese": "Sữa bò", "icon": "🥛", "highlight": "유" },
+          "storyTip": "🦊 여우 (Con cáo): Chữ '여' có 2 nét ngắn quay sang trái như 2 chiếc tai cáo nhọn, chữ '우' rủ xuống như cái đuôi.\n🥛 우유 (Sữa bò): Chữ '우' có 1 tia sữa, chữ '유' có 2 tia sữa đang bắn ra từ bình sữa!",
+          "rule": "Có tai cáo '여' đứng đầu là Con Cáo; Có 2 tia sữa '유' ở đuôi là Sữa Bò!"
+        },
+        {
+          "id": "pair-2",
+          "title": "Cặp Đối Xứng Trái/Phải: Bố 👨 vs Mẹ 👩",
+          "wordA": { "korean": "아버지", "vietnamese": "Bố, ba", "icon": "👨", "highlight": "아" },
+          "wordB": { "korean": "어머니", "vietnamese": "Mẹ, má", "icon": "👩", "highlight": "어" },
+          "storyTip": "👨 아버지 (Bố): Nét '아' quay sang PHẢI ➔ Bố mạnh mẽ tiến về phía trước che chở gia đình.\n👩 어머니 (Mẹ): Nét '어' quay sang TRÁI ➔ Mẹ dịu dàng ôm con vào lòng hướng về trái tim.",
+          "rule": "Nét sang Phải là Bố (아); Nét sang Trái là Mẹ (어)!"
+        },
+        {
+          "id": "pair-3",
+          "title": "Cặp Nguyên Âm: Em Bé 👶 vs Dưa Leo 🥒",
+          "wordA": { "korean": "아이", "vietnamese": "Em bé", "icon": "👶", "highlight": "아" },
+          "wordB": { "korean": "오이", "vietnamese": "Dưa leo", "icon": "🥒", "highlight": "오" },
+          "storyTip": "👶 아이 (Em bé): Chữ '아' nét ngang dang sang phải như em bé dang tay đòi bế.\n🥒 오이 (Dưa leo): Chữ '오' có nét nhô lên cao như ngọn dây leo mọc từ mặt đất.",
+          "rule": "Nét ngang dang tay là Em Bé (아이); Nét chồi lên cao là Quả Dưa Leo (오이)!"
+        },
+        {
+          "id": "pair-4",
+          "title": "Cặp Thước Kẻ 📏 vs Đại Từ Tôi 🙋",
+          "wordA": { "korean": "자", "vietnamese": "Cây thước kẻ", "icon": "📏", "highlight": "자" },
+          "wordB": { "korean": "저", "vietnamese": "Tôi (khiêm tốn)", "icon": "🙋", "highlight": "저" },
+          "storyTip": "📏 자: Nét sang phải (nguyên âm ㅏ) ➔ Thước kẻ đo dài sang phải.\n🙋 저: Nét sang trái (nguyên âm ㅓ) ➔ Hướng về bản thân mình ('Tôi').",
+          "rule": "Nét sang Phải = Thước kẻ (자); Nét sang Trái = Tôi (저)!"
+        }
+      ],
       "consonantTheory": {
         "title": "Bài 2: 10 Phụ Âm Cơ Bản (Nguyên lý sáng tạo)",
         "principle": "Dựa vào hình dáng của cơ quan phát âm khi nói: Lưỡi, Môi, Răng, Cổ họng.",
@@ -279,7 +313,7 @@ window.KOREAN_LESSONS_DATA = {
         { "id": "w4", "korean": "호주", "vietnamese": "Nước Úc", "pronounce": "hô-chu", "category": "Địa danh", "icon": "🦘", "note": "Quốc gia chuột túi Australia" },
         { "id": "w5", "korean": "여기", "vietnamese": "Ở đây, chỗ này", "pronounce": "yơ-ki", "category": "Vị trí", "icon": "📍", "note": "Chỉ địa điểm gần người nói" },
         { "id": "w6", "korean": "어느 나라", "vietnamese": "Nước nào?", "pronounce": "ơ-nư na-ra", "category": "Câu hỏi", "icon": "🌏", "note": "Dùng khi hỏi quốc tịch hoặc đất nước" },
-        { "id": "w7", "korean": "바다", "vietnamese": "Biển", "pronounce": "pa-da", "category": "Thiên nhiên", "icon": "🌊", "note": "Bãi biển trong xanh lượn sóng" },
+        { "id": "w7", "korean": "바ダ", "vietnamese": "Biển", "pronounce": "pa-da", "category": "Thiên nhiên", "icon": "🌊", "note": "Bãi biển trong xanh lượn sóng" },
         { "id": "w8", "korean": "기자", "vietnamese": "Nhà báo, phóng viên", "pronounce": "ki-cha", "category": "Nghề nghiệp", "icon": "📰", "note": "Người viết tin tức thời sự" },
         { "id": "w9", "korean": "아버지", "vietnamese": "Bố, ba, cha", "pronounce": "a-bơ-ji", "category": "Gia đình", "icon": "👨", "note": "Cách gọi người cha trang trọng, lễ phép" },
         { "id": "w10", "korean": "어머니", "vietnamese": "Mẹ, má", "pronounce": "ơ-mơ-ni", "category": "Gia đình", "icon": "👩", "note": "Cách gọi người mẹ kính trọng" },
