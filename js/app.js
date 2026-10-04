@@ -20,6 +20,7 @@ const AppState = {
     remainingSeconds: 8,
     repeatCount: 2, // 1 hoặc 2 lần
     poolType: 'vocab', // 'all', 'vowels', 'vocab'
+    voiceMode: 'ko', // 'ko': Đọc tiếng Hàn; 'vi': Đọc nghĩa TV; 'both': Đọc cả 2
     hideText: true,
     currentWord: null,
     history: [],
@@ -67,9 +68,10 @@ const AppState = {
   }
 };
 
-// 2. Web Speech API - Phát âm giọng chuẩn tiếng Hàn
+// 2. Web Speech API - Phát âm giọng chuẩn tiếng Hàn & tiếng Việt
 const VoiceService = {
   koreanVoice: null,
+  vietnameseVoice: null,
 
   init() {
     if (!('speechSynthesis' in window)) {
@@ -82,8 +84,12 @@ const VoiceService = {
 
   loadVoices() {
     const voices = window.speechSynthesis.getVoices();
+    // Giọng tiếng Hàn
     this.koreanVoice = voices.find(v => v.lang === 'ko-KR' || v.lang === 'ko_KR') ||
                        voices.find(v => v.lang && v.lang.startsWith('ko'));
+    // Giọng tiếng Việt
+    this.vietnameseVoice = voices.find(v => v.lang === 'vi-VN' || v.lang === 'vi_VN') ||
+                           voices.find(v => v.lang && v.lang.startsWith('vi'));
   },
 
   speak(text, rate = 0.9, onEnd = null) {
@@ -97,6 +103,26 @@ const VoiceService = {
 
     if (this.koreanVoice) {
       utterance.voice = this.koreanVoice;
+    }
+
+    if (onEnd) {
+      utterance.onend = onEnd;
+    }
+
+    window.speechSynthesis.speak(utterance);
+  },
+
+  speakVietnamese(text, rate = 0.9, onEnd = null) {
+    if (!('speechSynthesis' in window) || !text) return;
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'vi-VN';
+    utterance.rate = rate;
+    utterance.pitch = 1.0;
+
+    if (this.vietnameseVoice) {
+      utterance.voice = this.vietnameseVoice;
     }
 
     if (onEnd) {
@@ -300,6 +326,7 @@ function renderFlashcards() {
 
 // 7. MODULE ĐỌC CHÍNH TẢ NGẪU NHIÊN (DICTATION)
 function setupDictationModule() {
+  const voiceModeSelect = document.getElementById('dict-voice-mode');
   const poolSelect = document.getElementById('dict-pool-select');
   const intervalSlider = document.getElementById('dict-interval-slider');
   const intervalVal = document.getElementById('dict-interval-val');
@@ -321,6 +348,13 @@ function setupDictationModule() {
   const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * 40;
   timerCircle.style.strokeDasharray = `${CIRCLE_CIRCUMFERENCE} ${CIRCLE_CIRCUMFERENCE}`;
   timerCircle.style.strokeDashoffset = 0;
+
+  if (voiceModeSelect) {
+    voiceModeSelect.onchange = (e) => {
+      AppState.dictation.voiceMode = e.target.value;
+      updateWordDisplay();
+    };
+  }
 
   intervalSlider.oninput = (e) => {
     AppState.dictation.totalSeconds = parseInt(e.target.value, 10);
@@ -361,10 +395,18 @@ function setupDictationModule() {
       return;
     }
 
+    const mode = AppState.dictation.voiceMode;
+
     if (AppState.dictation.hideText) {
       wordBox.textContent = '✍️ ? ? ?';
       wordBox.classList.add('hidden-mode');
-      subHint.textContent = `Bé lắng nghe và chép vào vở ô ly... (Gợi ý: ${current.category})`;
+      if (mode === 'vi') {
+        subHint.textContent = `🇻🇳 Đang đọc nghĩa: "${current.vietnamese}" ${current.icon} ➔ Bé nhớ và viết chữ tiếng Hàn vào vở!`;
+      } else if (mode === 'both') {
+        subHint.textContent = `🔄 Nghe nghĩa "${current.vietnamese}" + âm "${current.korean}" ➔ Chép chữ Hàn vào vở!`;
+      } else {
+        subHint.textContent = `Bé lắng nghe và chép vào vở ô ly... (Gợi ý: ${current.category})`;
+      }
     } else {
       wordBox.textContent = current.korean;
       wordBox.classList.remove('hidden-mode');
@@ -383,15 +425,41 @@ function setupDictationModule() {
     const word = AppState.dictation.currentWord;
     if (!word) return;
 
-    if (AppState.dictation.repeatCount === 2) {
-      VoiceService.speak(word.korean, AppState.dictation.speechRate, () => {
+    const mode = AppState.dictation.voiceMode;
+
+    if (mode === 'vi') {
+      // Đọc nghĩa tiếng Việt
+      const textToSpeak = word.vietnamese;
+      if (AppState.dictation.repeatCount === 2) {
+        VoiceService.speakVietnamese(textToSpeak, 0.9, () => {
+          setTimeout(() => {
+            if (!AppState.dictation.isRunning || AppState.dictation.isPaused) return;
+            VoiceService.speakVietnamese(textToSpeak, 0.9, onDone);
+          }, 1400);
+        });
+      } else {
+        VoiceService.speakVietnamese(textToSpeak, 0.9, onDone);
+      }
+    } else if (mode === 'both') {
+      // Đọc tiếng Việt trước rồi đọc tiếng Hàn
+      VoiceService.speakVietnamese(word.vietnamese, 0.9, () => {
         setTimeout(() => {
           if (!AppState.dictation.isRunning || AppState.dictation.isPaused) return;
           VoiceService.speak(word.korean, AppState.dictation.speechRate, onDone);
-        }, 1400);
+        }, 1200);
       });
     } else {
-      VoiceService.speak(word.korean, AppState.dictation.speechRate, onDone);
+      // Mặc định: Đọc tiếng Hàn
+      if (AppState.dictation.repeatCount === 2) {
+        VoiceService.speak(word.korean, AppState.dictation.speechRate, () => {
+          setTimeout(() => {
+            if (!AppState.dictation.isRunning || AppState.dictation.isPaused) return;
+            VoiceService.speak(word.korean, AppState.dictation.speechRate, onDone);
+          }, 1400);
+        });
+      } else {
+        VoiceService.speak(word.korean, AppState.dictation.speechRate, onDone);
+      }
     }
   }
 
@@ -485,14 +553,22 @@ function setupDictationModule() {
   };
 
   repeatCurrentBtn.onclick = () => {
-    if (AppState.dictation.currentWord) {
-      VoiceService.speak(AppState.dictation.currentWord.korean, 0.9);
+    const word = AppState.dictation.currentWord;
+    if (!word) return;
+    if (AppState.dictation.voiceMode === 'vi') {
+      VoiceService.speakVietnamese(word.vietnamese, 0.9);
+    } else {
+      VoiceService.speak(word.korean, 0.9);
     }
   };
 
   repeatSlowBtn.onclick = () => {
-    if (AppState.dictation.currentWord) {
-      VoiceService.speak(AppState.dictation.currentWord.korean, 0.65);
+    const word = AppState.dictation.currentWord;
+    if (!word) return;
+    if (AppState.dictation.voiceMode === 'vi') {
+      VoiceService.speakVietnamese(word.vietnamese, 0.7);
+    } else {
+      VoiceService.speak(word.korean, 0.65);
     }
   };
 }

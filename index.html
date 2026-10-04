@@ -65,7 +65,16 @@
         <!-- Thanh Tùy Chỉnh Cấu Hình -->
         <div class="dictation-controls-bar">
           <div class="control-item">
-            <label for="dict-pool-select">📚 Phạm vi đọc:</label>
+            <label for="dict-voice-mode">🗣️ Kiểu đọc chính tả:</label>
+            <select id="dict-voice-mode" style="border-color: #6366F1; font-weight: 800; color: #312E81;">
+              <option value="ko">🇰🇷 Đọc Tiếng Hàn ➔ Chép Tiếng Hàn</option>
+              <option value="vi">🇻🇳 Đọc Nghĩa Tiếng Việt ➔ Viết Tiếng Hàn</option>
+              <option value="both">🔄 Đọc Tiếng Việt + Tiếng Hàn</option>
+            </select>
+          </div>
+
+          <div class="control-item">
+            <label for="dict-pool-select">📚 Phạm vi từ:</label>
             <select id="dict-pool-select">
               <option value="vocab">23 Từ vựng thực hành</option>
               <option value="vowels">10 Nguyên âm cơ bản</option>
@@ -89,7 +98,7 @@
           <div class="control-item" style="justify-content: center;">
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
               <input type="checkbox" id="dict-hide-toggle" checked style="width: 18px; height: 18px;">
-              <span>🙈 Ẩn chữ (để bé tự viết)</span>
+              <span>🙈 Ẩn chữ tiếng Hàn (để bé tự viết)</span>
             </label>
           </div>
         </div>
