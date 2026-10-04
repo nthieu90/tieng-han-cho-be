@@ -54,6 +54,14 @@
         },
         {
           "id": "pair-2",
+          "title": "Cặp Đảo Hoán Vị: Nhà Báo 📰 vs Quả Cà Tím 🍆",
+          "wordA": { "korean": "기자", "vietnamese": "Nhà báo, phóng viên", "icon": "📰", "highlight": "기" },
+          "wordB": { "korean": "가지", "vietnamese": "Quả cà tím", "icon": "🍆", "highlight": "가" },
+          "storyTip": "📰 기자 (Nhà báo): Chữ '기' (cột thẳng như người cầm micro) đi trước '자' ➔ Nhà báo (Kí giả).\n🍆 가지 (Cà tím): Chữ '가' đứng trước, chữ '지' có nét nhọn cong chúc xuống như quả cà tím mọng nước!",
+          "rule": "'기' đứng đầu là Nhà Báo (기자); '가' đứng đầu là Quả Cà Tím (가지)!"
+        },
+        {
+          "id": "pair-3",
           "title": "Cặp Đối Xứng Trái/Phải: Bố 👨 vs Mẹ 👩",
           "wordA": { "korean": "아버지", "vietnamese": "Bố, ba", "icon": "👨", "highlight": "아" },
           "wordB": { "korean": "어머니", "vietnamese": "Mẹ, má", "icon": "👩", "highlight": "어" },
@@ -61,7 +69,7 @@
           "rule": "Nét sang Phải là Bố (아); Nét sang Trái là Mẹ (어)!"
         },
         {
-          "id": "pair-3",
+          "id": "pair-4",
           "title": "Cặp Nguyên Âm: Em Bé 👶 vs Dưa Leo 🥒",
           "wordA": { "korean": "아이", "vietnamese": "Em bé", "icon": "👶", "highlight": "아" },
           "wordB": { "korean": "오이", "vietnamese": "Dưa leo", "icon": "🥒", "highlight": "오" },
@@ -69,12 +77,60 @@
           "rule": "Nét ngang dang tay là Em Bé (아이); Nét chồi lên cao là Quả Dưa Leo (오이)!"
         },
         {
-          "id": "pair-4",
-          "title": "Cặp Thước Kẻ 📏 vs Đại Từ Tôi 🙋",
+          "id": "pair-5",
+          "title": "Cặp Chữ Đơn: Cây Thước Kẻ 📏 vs Tôi 🙋",
           "wordA": { "korean": "자", "vietnamese": "Cây thước kẻ", "icon": "📏", "highlight": "자" },
           "wordB": { "korean": "저", "vietnamese": "Tôi (khiêm tốn)", "icon": "🙋", "highlight": "저" },
           "storyTip": "📏 자: Nét sang phải (nguyên âm ㅏ) ➔ Thước kẻ đo dài sang phải.\n🙋 저: Nét sang trái (nguyên âm ㅓ) ➔ Hướng về bản thân mình ('Tôi').",
           "rule": "Nét sang Phải = Thước kẻ (자); Nét sang Trái = Tôi (저)!"
+        },
+        {
+          "id": "pair-6",
+          "title": "Cặp 1 Nét & 2 Nét: Số 5 5️⃣ vs Ạ (Kính Ngữ) 🙏",
+          "wordA": { "korean": "오", "vietnamese": "Số 5 (năm)", "icon": "5️⃣", "highlight": "오" },
+          "wordB": { "korean": "요", "vietnamese": "ạ (đuôi câu kính ngữ)", "icon": "🙏", "highlight": "요" },
+          "storyTip": "5️⃣ 오 (Số 5): Có 1 nét nhô lên ➔ Đại diện cho 1 bàn tay xòe đủ 5 ngón.\n🙏 요 (Ạ / Dạ): Có 2 nét nhô lên ➔ Biểu tượng 2 bàn tay chắp lại cúi chào lễ phép 'Dạ / Ạ'.",
+          "rule": "1 nét nhô lên = Số 5 (오); 2 nét nhô lên = Ạ kính ngữ (요)!"
+        },
+        {
+          "id": "pair-7",
+          "title": "Cặp Cùng Đuôi '기': Ở Đây 📍 vs Con Muỗi 🦟",
+          "wordA": { "korean": "여기", "vietnamese": "Ở đây, chỗ này", "icon": "📍", "highlight": "여" },
+          "wordB": { "korean": "모기", "vietnamese": "Con muỗi", "icon": "🦟", "highlight": "모" },
+          "storyTip": "📍 여기 (Ở đây): Chữ '여' có 2 nét chỉ tay sang đây ➔ 'Ở ngay đây này!'.\n🦟 모기 (Con muỗi): Chữ 'ㅁ' vuông vức khép kín như chiếc mùng (màn) giăng lên để chống muỗi đốt!",
+          "rule": "Chữ '여' chỉ tay = Ở đây (여기); Chữ 'ㅁ' hình cái mùng = Con muỗi (모기)!"
+        },
+        {
+          "id": "pair-8",
+          "title": "Cặp Đầu 'ㄱ': Ca Sĩ 🎤 vs Đôi Giày Da 👞",
+          "wordA": { "korean": "가수", "vietnamese": "Ca sĩ", "icon": "🎤", "highlight": "가" },
+          "wordB": { "korean": "구두", "vietnamese": "Đôi giày tây / Giày da", "icon": "👞", "highlight": "구" },
+          "storyTip": "🎤 가수 (Ca sĩ): Chữ '가' mở miệng to (nguyên âm ㅏ) để ca sĩ ngân vang bài hát, '수' cầm micro.\n👞 구두 (Đôi giày): Cả hai chữ '구' và '두' đều có nét chân chúc xuống đất ➔ Giày da luôn đặt trên mặt đất!",
+          "rule": "Miệng mở to hát = Ca Sĩ (가수); Hai chữ đều chúc xuống đất = Đôi Giày (구두)!"
+        },
+        {
+          "id": "pair-9",
+          "title": "Cặp Số Đếm Hán-Hàn: Số 2 2️⃣ vs Số 5 5️⃣",
+          "wordA": { "korean": "이", "vietnamese": "Số 2 (hai)", "icon": "2️⃣", "highlight": "이" },
+          "wordB": { "korean": "오", "vietnamese": "Số 5 (năm)", "icon": "5️⃣", "highlight": "오" },
+          "storyTip": "2️⃣ 이 (Số 2): Cột dọc thẳng đứng ㅣ như 1 ngón trỏ, phát âm 'i' (vần giống số 'hai' trong tiếng Việt).\n5️⃣ 오 (Số 5): Nằm ngang mặt đất ㅡ và chồi lên 1 nét, mở rộng như lòng bàn tay 5 ngón.",
+          "rule": "Cột dọc thẳng đứng = Số 2 (이); Nét ngang có mầm chồi = Số 5 (오)!"
+        },
+        {
+          "id": "pair-10",
+          "title": "Cặp Giao Tiếp 3 Âm Tiết: Chuyện Kể 📖 vs Dạ Không 🙅",
+          "wordA": { "korean": "이야기", "vietnamese": "Câu chuyện, kể chuyện", "icon": "📖", "highlight": "이야기" },
+          "wordB": { "korean": "아니요", "vietnamese": "Dạ không, không phải", "icon": "🙅", "highlight": "아니요" },
+          "storyTip": "📖 이야기 (Câu chuyện): Bắt đầu bằng '이', kết thúc bằng '기' (như nhật ký), nghe ríu rít như đang tâm sự.\n🙅 아니요 (Dạ không): Bắt đầu bằng '아' (A!), kết thúc bằng đuôi lễ phép '요' ➔ Lắc đầu từ chối lịch sự.",
+          "rule": "Kết thúc bằng '기' = Câu Chuyện (이야기); Kết thúc bằng '요' = Dạ Không (아니요)!"
+        },
+        {
+          "id": "pair-11",
+          "title": "Cặp Khác Phụ Âm Đầu: Nước Biển 🌊 vs Quả Cà Tím 🍆",
+          "wordA": { "korean": "바다", "vietnamese": "Biển", "icon": "🌊", "highlight": "바" },
+          "wordB": { "korean": "가지", "vietnamese": "Quả cà tím", "icon": "🍆", "highlight": "가" },
+          "storyTip": "🌊 바다 (Biển): Chữ 'ㅂ' trông như chiếc xô đựng đầy nước biển mát rượi, '다' như sóng vỗ dập dềnh.\n🍆 가지 (Cà tím): Chữ 'ㄱ' như cành cây, chữ '지' có nét nhọn chúc xuống như quả cà tím treo lủng lẳng.",
+          "rule": "Chữ 'ㅂ' giống xô múc nước = Biển (바다); Chữ 'ㄱ' và '지' = Cà Tím (가지)!"
         }
       ],
       "consonantTheory": {

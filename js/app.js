@@ -972,9 +972,9 @@ function renderTheoryModule() {
         <p style="color: #64748B; margin-bottom: 14px;">Bí kíp độc quyền với mẹo hình ảnh giúp bé phân biệt ngay các từ viết và đọc gần giống nhau:</p>
         
         <div class="pair-duel-container">
-          ${AppState.currentLesson.lookAlikePairs.map(p => `
+          ${AppState.currentLesson.lookAlikePairs.map((p, idx) => `
             <div class="pair-card">
-              <div class="pair-title">⚡ ${p.title}</div>
+              <div class="pair-title">⚡ Cặp #${idx + 1}: ${p.title}</div>
               <div class="pair-side-by-side">
                 <div class="pair-col col-a">
                   <div style="font-size: 1.8rem;">${p.wordA.icon}</div>
