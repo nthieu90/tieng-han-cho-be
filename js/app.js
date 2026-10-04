@@ -162,6 +162,7 @@ function initAllModules() {
   setupBuilderModule();
   renderTheoryModule();
   setupQuizModule();
+  setupMouthModal();
 }
 
 // 4. Tab Navigation
@@ -226,6 +227,7 @@ function renderFlashcards() {
   const cardHint = document.getElementById('card-hint');
   const cardAudioBtn = document.getElementById('card-audio-btn');
   const cardAudioSlowBtn = document.getElementById('card-audio-slow-btn');
+  const cardMouthBtn = document.getElementById('card-mouth-btn');
 
   const backIcon = document.getElementById('card-back-icon');
   const backVietnamese = document.getElementById('card-back-vietnamese');
@@ -247,6 +249,13 @@ function renderFlashcards() {
     frontKorean.textContent = item.korean;
     cardTag.textContent = item.category;
     cardHint.textContent = item.type === 'vowel' ? `Nét gốc: ${item.subChar}` : 'Chạm để lật xem nghĩa 👉';
+
+    // Chỉ hiển thị nút khẩu hình cho 10 Nguyên Âm
+    if (item.type === 'vowel') {
+      cardMouthBtn.style.display = 'inline-flex';
+    } else {
+      cardMouthBtn.style.display = 'none';
+    }
 
     // Mặt sau
     backIcon.textContent = item.icon;
@@ -280,6 +289,15 @@ function renderFlashcards() {
     const item = AppState.filteredCards[AppState.currentCardIndex];
     VoiceService.speak(item.korean, 0.65);
   };
+
+  // Nút xem KHẨU HÌNH MIỆNG cho nguyên âm
+  if (cardMouthBtn) {
+    cardMouthBtn.onclick = (e) => {
+      e.stopPropagation();
+      const item = AppState.filteredCards[AppState.currentCardIndex];
+      openMouthModal(item);
+    };
+  }
 
   prevBtn.onclick = () => {
     if (AppState.currentCardIndex > 0) {
@@ -691,15 +709,32 @@ function renderTheoryModule() {
 
     <div class="theory-card">
       <h3>🗣️ 10 Phụ Âm Cơ Bản (Nguyên Lý Mô Phỏng Cơ Quan Phát Âm)</h3>
-      <p style="color: #64748B; margin-bottom: 14px;">Dựa vào hình dáng của: <em>Lưỡi, Môi, Răng, Cổ họng</em> khi phát âm.</p>
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;">
+      <p style="color: #64748B; margin-bottom: 14px;">Vua Sejong sáng tạo phụ âm dựa trên hình dáng cử động của: <strong>Lưỡi, Môi, Răng, Cổ họng</strong>.</p>
+      
+      <!-- Lưới 10 phụ âm kèm cơ quan phát âm -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px;">
         ${consonants.map((c, i) => `
-          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; padding: 12px; border-radius: 12px;">
-            <div style="font-size: 1.8rem; font-weight: 800; color: #1E3A8A;">${i + 1}. ${c.char}</div>
-            <div style="font-weight: 700; color: #334155; margin-top: 4px;">${c.name}</div>
-            <div style="font-size: 0.85rem; color: #64748B;">Phát âm: ${c.sound}</div>
+          <div style="background: #F8FAFC; border: 2px solid #E2E8F0; padding: 14px; border-radius: 14px; transition: transform 0.2s;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 2rem; font-weight: 800; color: #1E3A8A;">${c.char}</span>
+              <span style="background: #DBEAFE; color: #1E40AF; font-size: 0.8rem; font-weight: 800; padding: 2px 8px; border-radius: 10px;">${c.organ}</span>
+            </div>
+            <div style="font-weight: 700; color: #334155; margin-top: 4px;">${i + 1}. ${c.name} (${c.sound})</div>
+            <div style="font-size: 0.82rem; color: #64748B; margin-top: 6px; line-height: 1.4;">${c.organDesc || ''}</div>
           </div>
         `).join('')}
+      </div>
+
+      <!-- Mẹo phát âm phụ âm siêu hay -->
+      <div style="margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+        <div style="background: #FEF3C7; border-left: 4px solid #F59E0B; padding: 12px 14px; border-radius: 4px 12px 12px 4px;">
+          <strong style="color: #92400E;">🧻 Mẹo Tờ Giấy Ăn (Đo Luồng Hơi):</strong>
+          <p style="font-size: 0.85rem; color: #78350F; margin-top: 4px;">Cầm mảnh giấy mỏng trước miệng: Đọc âm thường (ㅂ, ㄷ, ㄱ) giấy rung nhẹ; Đọc âm bật hơi (ㅍ, ㅌ, ㅋ) giấy bay mạnh!</p>
+        </div>
+        <div style="background: #EFF6FF; border-left: 4px solid #3B82F6; padding: 12px 14px; border-radius: 4px 12px 12px 4px;">
+          <strong style="color: #1E40AF;">🖐️ Mẹo Sờ Cổ Họng (Căng Cơ):</strong>
+          <p style="font-size: 0.85rem; color: #1E3A8A; margin-top: 4px;">Đặt ngón tay lên cổ họng để cảm nhận độ nén hơi và căng cơ khi phát âm các phụ âm căng (ㅃ, ㄸ, ㄲ).</p>
+        </div>
       </div>
     </div>
 
@@ -854,4 +889,113 @@ function setupQuizModule() {
   };
 
   generateQuestion();
+}
+
+// 11. MODULE MODAL KHẨU HÌNH MIỆNG CHUẨN
+function setupMouthModal() {
+  const overlay = document.getElementById('mouth-modal-overlay');
+  const closeBtn = document.getElementById('mouth-modal-close');
+  const charEl = document.getElementById('mouth-modal-char');
+  const badgeEl = document.getElementById('mouth-modal-badge');
+  const graphicEl = document.getElementById('mouth-visual-graphic');
+  const tipEl = document.getElementById('mouth-modal-tip');
+  const speakBtn = document.getElementById('mouth-modal-speak-btn');
+  const slowBtn = document.getElementById('mouth-modal-slow-btn');
+
+  let currentVowelChar = '아';
+
+  window.openMouthModal = function(item) {
+    if (!item) return;
+    currentVowelChar = item.korean;
+
+    const vowelData = AppState.currentLesson?.vowels?.find(v => v.char === item.korean) || {
+      char: item.korean,
+      mouthCategory: 'Khẩu hình tự nhiên',
+      mouthTip: 'Mở miệng tự nhiên và phát âm theo âm thanh mẫu.',
+      mouthShape: 'open-wide'
+    };
+
+    charEl.textContent = vowelData.char;
+    badgeEl.textContent = `Dạng khẩu hình: ${vowelData.mouthCategory}`;
+    tipEl.textContent = vowelData.mouthTip;
+
+    graphicEl.innerHTML = renderMouthShapeSVG(vowelData.mouthShape, vowelData.char);
+
+    overlay.classList.add('active');
+    VoiceService.speak(vowelData.char, 0.85);
+  };
+
+  closeBtn.onclick = () => overlay.classList.remove('active');
+  overlay.onclick = (e) => {
+    if (e.target === overlay) overlay.classList.remove('active');
+  };
+
+  speakBtn.onclick = () => VoiceService.speak(currentVowelChar, 0.9);
+  slowBtn.onclick = () => VoiceService.speak(currentVowelChar, 0.65);
+}
+
+function renderMouthShapeSVG(shapeType, char) {
+  let lipPath = '';
+  let teethPath = '';
+  let hintText = '';
+
+  switch (shapeType) {
+    case 'open-wide': // '아'
+      lipPath = `<ellipse cx="110" cy="70" rx="44" ry="52" fill="#EF4444" opacity="0.85" />
+                 <ellipse cx="110" cy="72" rx="30" ry="38" fill="#881337" />
+                 <ellipse cx="110" cy="85" rx="20" ry="12" fill="#F43F5E" />`;
+      teethPath = `<path d="M 88 50 Q 110 52 132 50 L 130 56 Q 110 58 90 56 Z" fill="#FFFFFF" />`;
+      hintText = `↕️ Mở to miệng tối đa theo chiều dọc`;
+      break;
+
+    case 'open-mid': // '어'
+      lipPath = `<ellipse cx="110" cy="70" rx="38" ry="42" fill="#EF4444" opacity="0.85" />
+                 <ellipse cx="110" cy="72" rx="24" ry="28" fill="#881337" />`;
+      teethPath = `<path d="M 92 56 Q 110 58 128 56 L 126 62 Q 110 64 94 62 Z" fill="#FFFFFF" />`;
+      hintText = `↕️ Hạ cằm mở vừa phải, không chúm môi`;
+      break;
+
+    case 'round-o': // '오'
+      lipPath = `<circle cx="110" cy="70" r="40" fill="#F43F5E" opacity="0.9" />
+                 <circle cx="110" cy="70" r="22" fill="#881337" />
+                 <circle cx="110" cy="70" r="14" fill="#4C0519" />`;
+      hintText = `⭕ Chúm môi tròn xoe hình chữ O đưa ra trước`;
+      break;
+
+    case 'round-u': // '우'
+      lipPath = `<circle cx="110" cy="70" r="34" fill="#F43F5E" opacity="0.9" />
+                 <circle cx="110" cy="70" r="14" fill="#881337" />
+                 <circle cx="110" cy="70" r="7" fill="#1E1B4B" />`;
+      hintText = `😗 Chu môi nhọn ra trước như đang huýt sáo`;
+      break;
+
+    case 'spread-smile': // '으'
+      lipPath = `<path d="M 45 70 Q 110 56 175 70 Q 110 84 45 70 Z" fill="#EF4444" opacity="0.9" />
+                 <path d="M 58 70 Q 110 64 162 70 Q 110 76 58 70 Z" fill="#881337" />`;
+      teethPath = `<path d="M 66 68 Q 110 66 154 68 L 152 72 Q 110 74 68 72 Z" fill="#FFFFFF" />`;
+      hintText = `↔️ Kéo dài mép môi sang 2 bên, răng cắn nhẹ`;
+      break;
+
+    case 'spread-wide': // '이'
+      lipPath = `<path d="M 42 70 Q 110 50 178 70 Q 110 90 42 70 Z" fill="#EF4444" opacity="0.9" />
+                 <path d="M 55 70 Q 110 60 165 70 Q 110 80 55 70 Z" fill="#881337" />`;
+      teethPath = `<path d="M 64 66 Q 110 63 156 66 L 154 74 Q 110 77 66 74 Z" fill="#FFFFFF" />`;
+      hintText = `😄 Cười tươi thật rộng, khóe miệng kéo ngang`;
+      break;
+
+    default: // Âm lướt ya, yeo, yo, yu
+      lipPath = `<ellipse cx="110" cy="70" rx="40" ry="44" fill="#EF4444" opacity="0.85" />
+                 <ellipse cx="110" cy="72" rx="26" ry="30" fill="#881337" />`;
+      hintText = `⚡ Lướt thật nhanh từ khẩu hình [i] sang [${char}]`;
+      break;
+  }
+
+  return `
+    <svg class="lip-graphic-svg" viewBox="0 0 220 140">
+      <circle cx="110" cy="70" r="65" fill="#FFE4E6" opacity="0.5" />
+      ${lipPath}
+      ${teethPath}
+    </svg>
+    <div style="font-weight: 800; font-size: 1rem; color: #BE185D; margin-top: 8px;">${hintText}</div>
+  `;
 }

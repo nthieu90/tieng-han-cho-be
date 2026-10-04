@@ -4,7 +4,7 @@ window.KOREAN_LESSONS_DATA = {
       "id": "lesson-1",
       "lessonNumber": 1,
       "title": "Mở Đầu, 10 Nguyên Âm & 10 Phụ Âm Cơ Bản",
-      "subtitle": "Bảng chữ cái Hangeul • Thuyết Tam Tài • 10 Phụ Âm • 23 Từ Vựng",
+      "subtitle": "Bảng chữ cái Hangeul • Thuyết Tam Tài • Khẩu hình miệng • 23 Từ Vựng",
       "date": "2026-10-04",
       "theory": {
         "overview": {
@@ -46,31 +46,224 @@ window.KOREAN_LESSONS_DATA = {
       "consonantTheory": {
         "title": "Bài 2: 10 Phụ Âm Cơ Bản (Nguyên lý sáng tạo)",
         "principle": "Dựa vào hình dáng của cơ quan phát âm khi nói: Lưỡi, Môi, Răng, Cổ họng.",
-        "note": "Viết chữ đúng hình dạng chuẩn, đúng nét và thứ tự nét viết."
+        "sensoryTricks": [
+          { "name": "Mẹo tờ giấy ăn (Luồng hơi)", "desc": "Cầm tờ giấy mỏng trước miệng: Đọc âm thường (ㅂ, ㄷ, ㄱ) giấy rung nhẹ; Đọc âm bật hơi (ㅍ, ㅌ, ㅋ) giấy bay mạnh!" },
+          { "name": "Mẹo sờ thanh quản (Căng cơ)", "desc": "Đặt ngón tay lên cổ họng để cảm nhận độ nén hơi và căng cơ khi phát âm các phụ âm căng (ㅃ, ㄸ, ㄲ)." }
+        ]
       },
       "vowels": [
-        { "id": "v1", "char": "아", "raw": "ㅏ", "roman": "a", "vi": "a", "group": "doc", "strokeHint": "Nét đứng trước, 1 nét ngắn sang PHẢI" },
-        { "id": "v2", "char": "야", "raw": "ㅑ", "roman": "ya", "vi": "ya", "group": "doc", "strokeHint": "Nét đứng trước, 2 nét ngắn sang PHẢI" },
-        { "id": "v3", "char": "어", "raw": "ㅓ", "roman": "eo", "vi": "o / ơ", "group": "doc", "strokeHint": "1 nét ngắn sang TRÁI, rồi nét đứng" },
-        { "id": "v4", "char": "여", "raw": "ㅕ", "roman": "yeo", "vi": "yo / yơ", "group": "doc", "strokeHint": "2 nét ngắn sang TRÁI, rồi nét đứng" },
-        { "id": "v5", "char": "오", "raw": "ㅗ", "roman": "o", "vi": "ô", "group": "ngang", "strokeHint": "1 nét ngắn hướng LÊN, rồi nét ngang" },
-        { "id": "v6", "char": "요", "raw": "ㅛ", "roman": "yo", "vi": "yô", "group": "ngang", "strokeHint": "2 nét ngắn hướng LÊN, rồi nét ngang" },
-        { "id": "v7", "char": "우", "raw": "ㅜ", "roman": "u", "vi": "u", "group": "ngang", "strokeHint": "Nét ngang trước, 1 nét ngắn hướng XUỐNG" },
-        { "id": "v8", "char": "유", "raw": "ㅠ", "roman": "yu", "vi": "yu", "group": "ngang", "strokeHint": "Nét ngang trước, 2 nét ngắn hướng XUỐNG" },
-        { "id": "v9", "char": "으", "raw": "ㅡ", "roman": "eu", "vi": "ư", "group": "ngang", "strokeHint": "1 nét ngang phẳng (Đất)" },
-        { "id": "v10", "char": "이", "raw": "ㅣ", "roman": "i", "vi": "i", "group": "doc", "strokeHint": "1 nét đứng thẳng (Người)" }
+        {
+          "id": "v1",
+          "char": "아",
+          "raw": "ㅏ",
+          "roman": "a",
+          "vi": "a",
+          "group": "doc",
+          "strokeHint": "Nét đứng trước, 1 nét ngắn sang PHẢI",
+          "mouthCategory": "Mở to miệng",
+          "mouthTip": "Mở to miệng tự nhiên theo chiều dọc, hạ hàm dưới, đầu lưỡi chạm chân răng dưới.",
+          "mouthShape": "open-wide"
+        },
+        {
+          "id": "v2",
+          "char": "야",
+          "raw": "ㅑ",
+          "roman": "ya",
+          "vi": "ya",
+          "group": "doc",
+          "strokeHint": "Nét đứng trước, 2 nét ngắn sang PHẢI",
+          "mouthCategory": "Lướt từ [i] sang [a]",
+          "mouthTip": "Bắt đầu bằng khẩu hình bẹt mép của [i] rồi chuyển thật nhanh sang mở to miệng [a].",
+          "mouthShape": "glide-open"
+        },
+        {
+          "id": "v3",
+          "char": "어",
+          "raw": "ㅓ",
+          "roman": "eo",
+          "vi": "o / ơ",
+          "group": "doc",
+          "strokeHint": "1 nét ngắn sang TRÁI, rồi nét đứng",
+          "mouthCategory": "Mở miệng vừa phải",
+          "mouthTip": "Mở miệng hình chữ O tự nhiên, hạ cằm vừa phải, không chúm môi, phát âm hơi hướng 'ơ' của tiếng Việt.",
+          "mouthShape": "open-mid"
+        },
+        {
+          "id": "v4",
+          "char": "여",
+          "raw": "ㅕ",
+          "roman": "yeo",
+          "vi": "yo / yơ",
+          "group": "doc",
+          "strokeHint": "2 nét ngắn sang TRÁI, rồi nét đứng",
+          "mouthCategory": "Lướt từ [i] sang [ơ]",
+          "mouthTip": "Lướt nhanh từ khẩu hình [i] rồi hạ hàm mở miệng vừa phải sang [ơ/o].",
+          "mouthShape": "glide-mid"
+        },
+        {
+          "id": "v5",
+          "char": "오",
+          "raw": "ㅗ",
+          "roman": "o",
+          "vi": "ô",
+          "group": "ngang",
+          "strokeHint": "1 nét ngắn hướng LÊN, rồi nét ngang",
+          "mouthCategory": "Chúm môi tròn xoe",
+          "mouthTip": "Chúm môi thành hình tròn xoe chữ O đưa về phía trước, không bẹt miệng sang 2 bên.",
+          "mouthShape": "round-o"
+        },
+        {
+          "id": "v6",
+          "char": "요",
+          "raw": "ㅛ",
+          "roman": "yo",
+          "vi": "yô",
+          "group": "ngang",
+          "strokeHint": "2 nét ngắn hướng LÊN, rồi nét ngang",
+          "mouthCategory": "Lướt từ [i] sang chúm môi [ô]",
+          "mouthTip": "Bắt đầu bẹt mép [i] lướt nhanh sang chúm môi tròn xoe [ô].",
+          "mouthShape": "glide-round-o"
+        },
+        {
+          "id": "v7",
+          "char": "우",
+          "raw": "ㅜ",
+          "roman": "u",
+          "vi": "u",
+          "group": "ngang",
+          "strokeHint": "Nét ngang trước, 1 nét ngắn hướng XUỐNG",
+          "mouthCategory": "Chu môi nhọn",
+          "mouthTip": "Chu môi nhọn ra phía trước như đang huýt sáo, lỗ môi tròn nhỏ xíu.",
+          "mouthShape": "round-u"
+        },
+        {
+          "id": "v8",
+          "char": "유",
+          "raw": "ㅠ",
+          "roman": "yu",
+          "vi": "yu",
+          "group": "ngang",
+          "strokeHint": "Nét ngang trước, 2 nét ngắn hướng XUỐNG",
+          "mouthCategory": "Lướt từ [i] sang chu môi [u]",
+          "mouthTip": "Lướt nhanh từ [i] sang chu môi nhọn như huýt sáo [u].",
+          "mouthShape": "glide-round-u"
+        },
+        {
+          "id": "v9",
+          "char": "으",
+          "raw": "ㅡ",
+          "roman": "eu",
+          "vi": "ư",
+          "group": "ngang",
+          "strokeHint": "1 nét ngang phẳng (Đất)",
+          "mouthCategory": "Bẹt mép cười mỉm",
+          "mouthTip": "Kéo mép sang hai bên như đang cười mỉm, hai hàm răng gần khép lại, lưỡi nâng cao.",
+          "mouthShape": "spread-smile"
+        },
+        {
+          "id": "v10",
+          "char": "이",
+          "raw": "ㅣ",
+          "roman": "i",
+          "vi": "i",
+          "group": "doc",
+          "strokeHint": "1 nét đứng thẳng (Người)",
+          "mouthCategory": "Cười tươi kéo ngang",
+          "mouthTip": "Kéo rộng khóe miệng sang hai bên như cười thật tươi, mặt lưỡi nâng sát vòm họng trên.",
+          "mouthShape": "spread-wide"
+        }
       ],
       "consonantsAll": [
-        { "id": "c1", "char": "ㅇ", "name": "Hình tròn", "sound": "Không đọc (PÂ câm)", "examples": { "ㅗ": "오", "ㅛ": "요", "ㅓ": "어", "ㅕ": "여" } },
-        { "id": "c2", "char": "ㄱ", "name": "Giống số 7", "sound": "[k / g]", "examples": { "ㅗ": "고", "ㅛ": "교", "ㅓ": "거", "ㅕ": "겨" } },
-        { "id": "c3", "char": "ㄴ", "name": "Giống chữ L", "sound": "[n]", "examples": { "ㅗ": "노", "ㅛ": "뇨", "ㅓ": "너", "ㅕ": "녀" } },
-        { "id": "c4", "char": "ㄷ", "name": "Giống chữ C", "sound": "[t / d]", "examples": { "ㅗ": "도", "ㅛ": "됴", "ㅓ": "더", "ㅕ": "뎌" } },
-        { "id": "c5", "char": "ㄹ", "name": "Giống số 2", "sound": "[l / r]", "examples": { "ㅗ": "로", "ㅛ": "료", "ㅓ": "러", "ㅕ": "려" } },
-        { "id": "c6", "char": "ㅁ", "name": "Vuông / Chữ nhật", "sound": "[m]", "examples": { "ㅗ": "모", "ㅛ": "묘", "ㅓ": "머", "ㅕ": "며" } },
-        { "id": "c7", "char": "ㅂ", "name": "Nửa li nước", "sound": "[p / b]", "examples": { "ㅗ": "보", "ㅛ": "뵤", "ㅓ": "버", "ㅕ": "벼" } },
-        { "id": "c8", "char": "ㅅ", "name": "Sắc rồi huyền", "sound": "[s / sh]", "examples": { "ㅗ": "소", "ㅛ": "쇼", "ㅓ": "서", "ㅕ": "셔" } },
-        { "id": "c9", "char": "ㅈ", "name": "Nét 7 rồi huyền", "sound": "[ch / j]", "examples": { "ㅗ": "조", "ㅛ": "죠", "ㅓ": "저", "ㅕ": "져" } },
-        { "id": "c10", "char": "ㅎ", "name": "Chữ O đội mũ", "sound": "[h]", "examples": { "ㅗ": "호", "ㅛ": "효", "ㅓ": "허", "ㅕ": "혀" } }
+        {
+          "id": "c1",
+          "char": "ㅇ",
+          "name": "Hình tròn",
+          "sound": "Không đọc (PÂ câm)",
+          "organ": "Cổ họng mở",
+          "organDesc": "Mô phỏng cổ họng hình tròn mở rộng để luồng khí đi ra tự nhiên.",
+          "examples": { "ㅗ": "오", "ㅛ": "요", "ㅓ": "어", "ㅕ": "여" }
+        },
+        {
+          "id": "c2",
+          "char": "ㄱ",
+          "name": "Giống số 7",
+          "sound": "[k / g]",
+          "organ": "Cuống lưỡi",
+          "organDesc": "Mô phỏng cuống lưỡi cong lên chạm vào vòm họng trên để chặn hơi.",
+          "examples": { "ㅗ": "고", "ㅛ": "교", "ㅓ": "거", "ㅕ": "겨" }
+        },
+        {
+          "id": "c3",
+          "char": "ㄴ",
+          "name": "Giống chữ L",
+          "sound": "[n]",
+          "organ": "Đầu lưỡi",
+          "organDesc": "Mô phỏng đầu lưỡi cong lên chạm vào chân răng trên (nướu răng).",
+          "examples": { "ㅗ": "노", "ㅛ": "뇨", "ㅓ": "너", "ㅕ": "녀" }
+        },
+        {
+          "id": "c4",
+          "char": "ㄷ",
+          "name": "Giống chữ C",
+          "sound": "[t / d]",
+          "organ": "Đầu lưỡi chặn răng",
+          "organDesc": "Tạo từ nét chữ ㄴ thêm 1 nét ngang, đầu lưỡi chạm vào răng trên rồi bật nhẹ ra.",
+          "examples": { "ㅗ": "도", "ㅛ": "됴", "ㅓ": "더", "ㅕ": "뎌" }
+        },
+        {
+          "id": "c5",
+          "char": "ㄹ",
+          "name": "Giống số 2",
+          "sound": "[l / r]",
+          "organ": "Lưỡi uốn lượn",
+          "organDesc": "Mô phỏng hình dáng chiếc lưỡi uốn cong lên vòm miệng khi rung nhẹ.",
+          "examples": { "ㅗ": "로", "ㅛ": "료", "ㅓ": "러", "ㅕ": "려" }
+        },
+        {
+          "id": "c6",
+          "char": "ㅁ",
+          "name": "Vuông / Chữ nhật",
+          "sound": "[m]",
+          "organ": "Đôi môi",
+          "organDesc": "Mô phỏng hai bờ môi mím khép lại tạo thành hình chữ nhật.",
+          "examples": { "ㅗ": "모", "ㅛ": "묘", "ㅓ": "머", "ㅕ": "며" }
+        },
+        {
+          "id": "c7",
+          "char": "ㅂ",
+          "name": "Nửa li nước",
+          "sound": "[p / b]",
+          "organ": "Bật mở môi",
+          "organDesc": "Tạo từ hình chữ nhật ㅁ thêm 2 nét nhô lên, biểu thị luồng khí bật mở bờ môi.",
+          "examples": { "ㅗ": "보", "ㅛ": "뵤", "ㅓ": "버", "ㅕ": "벼" }
+        },
+        {
+          "id": "c8",
+          "char": "ㅅ",
+          "name": "Sắc rồi huyền",
+          "sound": "[s / sh]",
+          "organ": "Răng",
+          "organDesc": "Mô phỏng hình dáng chiếc răng, hai hàm khép gần nhau để luồng khí xì qua.",
+          "examples": { "ㅗ": "소", "ㅛ": "쇼", "ㅓ": "서", "ㅕ": "셔" }
+        },
+        {
+          "id": "c9",
+          "char": "ㅈ",
+          "name": "Nét 7 rồi huyền",
+          "sound": "[ch / j]",
+          "organ": "Răng và đầu lưỡi",
+          "organDesc": "Tạo từ chữ ㅅ thêm nét ngang trên đỉnh, luồng khí cọ xát đầu lưỡi và răng.",
+          "examples": { "ㅗ": "조", "ㅛ": "죠", "ㅓ": "저", "ㅕ": "져" }
+        },
+        {
+          "id": "c10",
+          "char": "ㅎ",
+          "name": "Chữ O đội mũ",
+          "sound": "[h]",
+          "organ": "Cổ họng thở nhẹ",
+          "organDesc": "Mô phỏng cổ họng thở hơi nhẹ từ sâu bên trong qua vòm họng.",
+          "examples": { "ㅗ": "호", "ㅛ": "효", "ㅓ": "허", "ㅕ": "혀" }
+        }
       ],
       "vocabulary": [
         { "id": "w_new1", "korean": "이", "vietnamese": "Số 2 (hai)", "pronounce": "i", "category": "Con số", "icon": "2️⃣", "note": "Số đếm thuần Hán" },

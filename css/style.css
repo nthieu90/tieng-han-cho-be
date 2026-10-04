@@ -555,13 +555,129 @@ main {
   color: white;
 }
 
-/* Quiz Mode Toggle */
-.quiz-mode-selector {
+.card-audio-btn-video {
+  background: #FDF2F8;
+  color: #DB2777;
+  border: 1.5px solid #F472B6;
+  padding: 8px 14px;
+  height: 52px;
+  border-radius: 30px;
   display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 8px rgba(219, 39, 119, 0.15);
+}
+
+.card-audio-btn-video:hover {
+  transform: scale(1.05);
+  background: #EC4899;
+  color: white;
+}
+
+/* Modal Popup Khẩu Hình Miệng */
+.mouth-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.mouth-modal-overlay.active {
+  display: flex;
+}
+
+.mouth-modal-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  max-width: 520px;
+  width: 100%;
+  padding: 28px 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  position: relative;
+  text-align: center;
+  animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.mouth-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: #F1F5F9;
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #64748B;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mouth-modal-close:hover {
+  background: #E2E8F0;
+  color: #0F172A;
+}
+
+.mouth-visual-stage {
+  margin: 18px 0;
+  background: linear-gradient(180deg, #F8FAFC 0%, #EEF2FF 100%);
+  border: 2px dashed #C7D2FE;
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+/* Đồ họa khuôn miệng động SVG */
+.lip-graphic-svg {
+  width: 220px;
+  height: 140px;
+  transition: all 0.3s ease;
+}
+
+.mouth-category-badge {
+  display: inline-block;
+  background: #FEF3C7;
+  color: #92400E;
+  font-size: 0.9rem;
+  font-weight: 800;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-top: 10px;
+}
+
+.mouth-tip-box {
+  background: #FFFBEB;
+  border-left: 4px solid #F59E0B;
+  border-radius: 6px 14px 14px 6px;
+  padding: 14px 16px;
+  text-align: left;
+  margin-top: 16px;
+  font-size: 0.95rem;
+  color: #78350F;
+  line-height: 1.5;
 }
 
 .quiz-korean-opt {

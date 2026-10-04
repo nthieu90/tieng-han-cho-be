@@ -177,7 +177,10 @@
                   <span>🔊</span>
                 </button>
                 <button id="card-audio-slow-btn" class="card-audio-btn-slow" title="Nghe phát âm chậm (0.6x)">
-                  <span>🐢 Nghe Chậm</span>
+                  <span>🐢 Chậm</span>
+                </button>
+                <button id="card-mouth-btn" class="card-audio-btn-video" title="Xem khẩu hình miệng">
+                  <span>🎥 Khẩu Hình</span>
                 </button>
               </div>
               <div id="card-hint" class="card-hint">Chạm để lật xem nghĩa 👉</div>
@@ -300,6 +303,37 @@
     </section>
 
   </main>
+
+  <!-- Modal Popup Khẩu Hình Miệng Chuẩn -->
+  <div id="mouth-modal-overlay" class="mouth-modal-overlay">
+    <div class="mouth-modal-card">
+      <button id="mouth-modal-close" class="mouth-modal-close">✕</button>
+      <div style="font-size: 0.85rem; font-weight: 800; color: #6366F1; text-transform: uppercase;">Khẩu Hình Chuẩn Người Bản Xứ</div>
+      <div id="mouth-modal-char" style="font-size: 3.8rem; font-weight: 800; color: #1E1B4B; margin: 4px 0;">아</div>
+      <div id="mouth-modal-badge" class="mouth-category-badge">Mở to miệng</div>
+
+      <!-- Sân khấu mô phỏng chuyển động môi -->
+      <div class="mouth-visual-stage">
+        <div id="mouth-visual-graphic"></div>
+      </div>
+
+      <!-- Mẹo chuyển động cơ miệng -->
+      <div class="mouth-tip-box">
+        <strong>💡 Mẹo cử động cơ miệng của giáo viên:</strong>
+        <div id="mouth-modal-tip" style="margin-top: 6px;">Mở to miệng tự nhiên theo chiều dọc...</div>
+      </div>
+
+      <!-- Nút nghe lại trong modal -->
+      <div style="display: flex; justify-content: center; gap: 12px; margin-top: 18px; flex-wrap: wrap;">
+        <button id="mouth-modal-speak-btn" class="btn-main">
+          <span>🔊 Nghe Chuẩn</span>
+        </button>
+        <button id="mouth-modal-slow-btn" class="card-audio-btn-slow">
+          <span>🐢 Nghe Chậm</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <footer>
     <p>Cùng Bé Chinh Phục Tiếng Hàn Mỗi Ngày • Cập Nhật Tự Động Từ Vở Bài Học</p>
