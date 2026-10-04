@@ -133,6 +133,123 @@ const VoiceService = {
   }
 };
 
+// 2.2 LocalStorage Service - Lưu & Ghi nhớ cấu hình của bé
+const StorageService = {
+  get(key, defaultVal) {
+    try {
+      const val = localStorage.getItem(key);
+      return val !== null ? JSON.parse(val) : defaultVal;
+    } catch (e) {
+      return defaultVal;
+    }
+  },
+  set(key, val) {
+    try {
+      localStorage.setItem(key, JSON.stringify(val));
+    } catch (e) {}
+  }
+};
+
+// 2.3 Web Speech Recognition - Luyện đọc chấm điểm AI
+const SpeechRecognitionService = {
+  recognition: null,
+  isRecording: false,
+
+  init() {
+    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRec) {
+      return false;
+    }
+    this.recognition = new SpeechRec();
+    this.recognition.lang = 'ko-KR';
+    this.recognition.interimResults = false;
+    this.recognition.maxAlternatives = 3;
+    return true;
+  },
+
+  startListening(targetWord, onResult, onError) {
+    if (!this.recognition && !this.init()) {
+      if (onError) onError('Trình duyệt chưa hỗ trợ tính năng nhận dạng giọng nói micro.');
+      return;
+    }
+
+    try {
+      this.recognition.onstart = () => {
+        this.isRecording = true;
+      };
+
+      this.recognition.onresult = (event) => {
+        this.isRecording = false;
+        const results = event.results[0];
+        const recognizedText = results[0].transcript.trim();
+        const scoreData = this.evaluatePronunciation(targetWord, recognizedText, results);
+        if (onResult) onResult(recognizedText, scoreData);
+      };
+
+      this.recognition.onerror = (event) => {
+        this.isRecording = false;
+        if (onError) onError(event.error === 'not-allowed' ? 'Bé hãy cho phép quyền micro để luyện đọc nhé!' : event.error);
+      };
+
+      this.recognition.onend = () => {
+        this.isRecording = false;
+      };
+
+      this.recognition.start();
+    } catch (e) {
+      this.isRecording = false;
+      if (onError) onError(e.message);
+    }
+  },
+
+  stop() {
+    if (this.recognition && this.isRecording) {
+      try { this.recognition.stop(); } catch (e) {}
+      this.isRecording = false;
+    }
+  },
+
+  evaluatePronunciation(target, spoken, results) {
+    const cleanTarget = target.replace(/[\s\.\,\?\!]+/g, '').toLowerCase();
+    const cleanSpoken = spoken.replace(/[\s\.\,\?\!]+/g, '').toLowerCase();
+
+    let isExactMatch = cleanTarget === cleanSpoken;
+    if (!isExactMatch && results) {
+      for (let i = 0; i < results.length; i++) {
+        if (results[i].transcript.replace(/[\s\.\,\?\!]+/g, '').toLowerCase() === cleanTarget) {
+          isExactMatch = true;
+          break;
+        }
+      }
+    }
+
+    if (isExactMatch) {
+      return {
+        score: 100,
+        grade: 'perfect',
+        label: '⭐⭐⭐ 100 Điểm!',
+        feedback: 'Tuyệt đỉnh! Bé phát âm chuẩn 100% người bản xứ!'
+      };
+    }
+
+    if (cleanSpoken.includes(cleanTarget) || cleanTarget.includes(cleanSpoken)) {
+      return {
+        score: 80,
+        grade: 'good',
+        label: '⭐⭐ 80 Điểm',
+        feedback: 'Khá tốt! Nghe lại nút rùa 🐢 để phát âm chuẩn hơn nữa nhé!'
+      };
+    }
+
+    return {
+      score: 50,
+      grade: 'retry',
+      label: '⭐ 50 Điểm',
+      feedback: 'Chưa chính xác, bé nghe mẫu lại và thử đọc to rõ lần nữa nào!'
+    };
+  }
+};
+
 // 3. Khởi tạo ứng dụng
 document.addEventListener('DOMContentLoaded', async () => {
   VoiceService.init();
@@ -228,6 +345,12 @@ function renderFlashcards() {
   const cardAudioBtn = document.getElementById('card-audio-btn');
   const cardAudioSlowBtn = document.getElementById('card-audio-slow-btn');
   const cardMouthBtn = document.getElementById('card-mouth-btn');
+  const cardMicBtn = document.getElementById('card-mic-btn');
+
+  const cardVoiceResult = document.getElementById('card-voice-result');
+  const voiceHeardText = document.getElementById('voice-heard-text');
+  const voiceFeedbackText = document.getElementById('voice-feedback-text');
+  const voiceScorePill = document.getElementById('voice-score-pill');
 
   const backIcon = document.getElementById('card-back-icon');
   const backVietnamese = document.getElementById('card-back-vietnamese');
@@ -244,6 +367,16 @@ function renderFlashcards() {
     
     cardStage.classList.remove('flipped');
     AppState.isCardFlipped = false;
+
+    // Reset micro và kết quả chấm điểm khi đổi thẻ
+    SpeechRecognitionService.stop();
+    if (cardMicBtn) {
+      cardMicBtn.classList.remove('recording');
+      cardMicBtn.innerHTML = '<span>🎙️ Bé Đọc</span>';
+    }
+    if (cardVoiceResult) {
+      cardVoiceResult.style.display = 'none';
+    }
 
     // Mặt trước
     frontKorean.textContent = item.korean;
@@ -296,6 +429,59 @@ function renderFlashcards() {
       e.stopPropagation();
       const item = AppState.filteredCards[AppState.currentCardIndex];
       openMouthModal(item);
+    };
+  }
+
+  // Nút MICRO LUYỆN ĐỌC CHẤM ĐIỂM
+  if (cardMicBtn) {
+    cardMicBtn.onclick = (e) => {
+      e.stopPropagation();
+      const item = AppState.filteredCards[AppState.currentCardIndex];
+
+      if (SpeechRecognitionService.isRecording) {
+        SpeechRecognitionService.stop();
+        cardMicBtn.classList.remove('recording');
+        cardMicBtn.innerHTML = '<span>🎙️ Bé Đọc</span>';
+        return;
+      }
+
+      // Khởi động micro nhận diện
+      cardMicBtn.classList.add('recording');
+      cardMicBtn.innerHTML = '<span>🔴 Đang Nghe...</span>';
+      cardVoiceResult.style.display = 'flex';
+      cardVoiceResult.className = 'voice-result-box';
+      voiceHeardText.textContent = '... (Bé hãy nói to rõ nhé!)';
+      voiceFeedbackText.textContent = 'Máy đang phân tích âm thanh...';
+      voiceScorePill.textContent = 'Đang nghe';
+      voiceScorePill.style.background = '#64748B';
+
+      SpeechRecognitionService.startListening(
+        item.korean,
+        (heardText, scoreData) => {
+          cardMicBtn.classList.remove('recording');
+          cardMicBtn.innerHTML = '<span>🎙️ Bé Đọc</span>';
+
+          cardVoiceResult.className = `voice-result-box ${scoreData.grade}`;
+          voiceHeardText.textContent = `"${heardText}"`;
+          voiceFeedbackText.textContent = scoreData.feedback;
+          voiceScorePill.textContent = scoreData.label;
+          voiceScorePill.style.background = '';
+
+          // Khen thưởng tiếng Hàn nếu 100 điểm
+          if (scoreData.score === 100) {
+            setTimeout(() => VoiceService.speak("완벽해요!", 1.0), 300);
+          }
+        },
+        (errorMsg) => {
+          cardMicBtn.classList.remove('recording');
+          cardMicBtn.innerHTML = '<span>🎙️ Bé Đọc</span>';
+          cardVoiceResult.className = 'voice-result-box retry';
+          voiceHeardText.textContent = 'Chưa nghe được';
+          voiceFeedbackText.textContent = errorMsg || 'Bé hãy thử nói lại gần micro hơn nhé!';
+          voiceScorePill.textContent = 'Thử lại';
+          voiceScorePill.style.background = '#EF4444';
+        }
+      );
     };
   }
 
@@ -355,6 +541,7 @@ function setupDictationModule() {
   const subHint = document.getElementById('dict-subhint');
   const startBtn = document.getElementById('dict-start-btn');
   const pauseBtn = document.getElementById('dict-pause-btn');
+  const skipBtn = document.getElementById('dict-skip-btn');
   const stopBtn = document.getElementById('dict-stop-btn');
   const repeatCurrentBtn = document.getElementById('dict-repeat-current-btn');
   const repeatSlowBtn = document.getElementById('dict-repeat-slow-btn');
@@ -367,9 +554,33 @@ function setupDictationModule() {
   timerCircle.style.strokeDasharray = `${CIRCLE_CIRCUMFERENCE} ${CIRCLE_CIRCUMFERENCE}`;
   timerCircle.style.strokeDashoffset = 0;
 
+  // Nạp cấu hình đã lưu từ LocalStorage
+  const savedVoiceMode = StorageService.get('korean_dict_voice_mode', 'ko');
+  const savedPool = StorageService.get('korean_dict_pool', 'vocab');
+  const savedInterval = StorageService.get('korean_dict_interval', 8);
+  const savedRepeat = StorageService.get('korean_dict_repeat', 2);
+  const savedHide = StorageService.get('korean_dict_hide', true);
+
+  AppState.dictation.voiceMode = savedVoiceMode;
+  AppState.dictation.poolType = savedPool;
+  AppState.dictation.totalSeconds = savedInterval;
+  AppState.dictation.remainingSeconds = savedInterval;
+  AppState.dictation.repeatCount = savedRepeat;
+  AppState.dictation.hideText = savedHide;
+
+  if (voiceModeSelect) voiceModeSelect.value = savedVoiceMode;
+  if (poolSelect) poolSelect.value = savedPool;
+  if (intervalSlider) {
+    intervalSlider.value = savedInterval;
+    intervalVal.textContent = `${savedInterval}s`;
+  }
+  if (repeatSelect) repeatSelect.value = savedRepeat;
+  if (hideToggle) hideToggle.checked = savedHide;
+
   if (voiceModeSelect) {
     voiceModeSelect.onchange = (e) => {
       AppState.dictation.voiceMode = e.target.value;
+      StorageService.set('korean_dict_voice_mode', e.target.value);
       updateWordDisplay();
     };
   }
@@ -377,18 +588,22 @@ function setupDictationModule() {
   intervalSlider.oninput = (e) => {
     AppState.dictation.totalSeconds = parseInt(e.target.value, 10);
     intervalVal.textContent = `${AppState.dictation.totalSeconds}s`;
+    StorageService.set('korean_dict_interval', AppState.dictation.totalSeconds);
   };
 
   repeatSelect.onchange = (e) => {
     AppState.dictation.repeatCount = parseInt(e.target.value, 10);
+    StorageService.set('korean_dict_repeat', AppState.dictation.repeatCount);
   };
 
   poolSelect.onchange = (e) => {
     AppState.dictation.poolType = e.target.value;
+    StorageService.set('korean_dict_pool', AppState.dictation.poolType);
   };
 
   hideToggle.onchange = (e) => {
     AppState.dictation.hideText = e.target.checked;
+    StorageService.set('korean_dict_hide', AppState.dictation.hideText);
     updateWordDisplay();
   };
 
@@ -538,6 +753,7 @@ function setupDictationModule() {
     AppState.dictation.isPaused = false;
     startBtn.style.display = 'none';
     pauseBtn.style.display = 'inline-flex';
+    if (skipBtn) skipBtn.style.display = 'inline-flex';
     stopBtn.style.display = 'inline-flex';
     repeatCurrentBtn.style.display = 'inline-flex';
     repeatSlowBtn.style.display = 'inline-flex';
@@ -550,6 +766,16 @@ function setupDictationModule() {
     pauseBtn.innerHTML = AppState.dictation.isPaused ? '▶️ Tiếp Tục' : '⏸️ Tạm Dừng';
   };
 
+  if (skipBtn) {
+    skipBtn.onclick = () => {
+      if (!AppState.dictation.isRunning) return;
+      clearInterval(AppState.dictation.timerInterval);
+      window.speechSynthesis.cancel();
+      // Chuyển sang ngay từ tiếp theo
+      stepDictation();
+    };
+  }
+
   stopBtn.onclick = () => {
     AppState.dictation.isRunning = false;
     AppState.dictation.isPaused = false;
@@ -557,6 +783,7 @@ function setupDictationModule() {
 
     startBtn.style.display = 'inline-flex';
     pauseBtn.style.display = 'none';
+    if (skipBtn) skipBtn.style.display = 'none';
     stopBtn.style.display = 'none';
     repeatCurrentBtn.style.display = 'none';
     repeatSlowBtn.style.display = 'none';
@@ -761,11 +988,23 @@ function setupQuizModule() {
   const questionNum = document.getElementById('quiz-question-num');
   const nextQBtn = document.getElementById('quiz-next-btn');
 
+  // Nạp chế độ quiz đã lưu từ LocalStorage
+  const savedQuizMode = StorageService.get('korean_quiz_mode', 'listen');
+  AppState.quiz.mode = savedQuizMode;
+  if (savedQuizMode === 'meaning') {
+    modeMeaningBtn.classList.add('active');
+    modeListenBtn.classList.remove('active');
+  } else {
+    modeListenBtn.classList.add('active');
+    modeMeaningBtn.classList.remove('active');
+  }
+
   // Chuyển đổi qua lại giữa 2 chế độ
   modeListenBtn.onclick = () => {
     modeListenBtn.classList.add('active');
     modeMeaningBtn.classList.remove('active');
     AppState.quiz.mode = 'listen';
+    StorageService.set('korean_quiz_mode', 'listen');
     generateQuestion();
   };
 
@@ -773,6 +1012,7 @@ function setupQuizModule() {
     modeMeaningBtn.classList.add('active');
     modeListenBtn.classList.remove('active');
     AppState.quiz.mode = 'meaning';
+    StorageService.set('korean_quiz_mode', 'meaning');
     generateQuestion();
   };
 

@@ -126,6 +126,9 @@
           <button id="dict-pause-btn" class="btn-secondary" style="display: none;">
             <span>⏸️ Tạm Dừng</span>
           </button>
+          <button id="dict-skip-btn" class="btn-secondary" style="display: none; background: #EEF2FF; color: #4338CA; border-color: #C7D2FE;">
+            <span>⏭️ Bỏ Qua</span>
+          </button>
           <button id="dict-repeat-current-btn" class="btn-secondary" style="display: none;">
             <span>🔊 Đọc Lại (Chuẩn)</span>
           </button>
@@ -182,7 +185,20 @@
                 <button id="card-mouth-btn" class="card-audio-btn-video" title="Xem khẩu hình miệng">
                   <span>🎥 Khẩu Hình</span>
                 </button>
+                <button id="card-mic-btn" class="card-audio-btn-mic" title="Bé đọc vào micro để máy chấm điểm">
+                  <span>🎙️ Bé Đọc</span>
+                </button>
               </div>
+
+              <!-- Hộp kết quả chấm điểm giọng đọc của bé -->
+              <div id="card-voice-result" class="voice-result-box" style="display: none;">
+                <div class="voice-detail">
+                  <div>Máy nghe được: <strong id="voice-heard-text" style="color: #1E3A8A;">...</strong></div>
+                  <div id="voice-feedback-text" style="color: #64748B; font-size: 0.78rem;">Đang phân tích...</div>
+                </div>
+                <div id="voice-score-pill" class="voice-score-pill">100 điểm</div>
+              </div>
+
               <div id="card-hint" class="card-hint">Chạm để lật xem nghĩa 👉</div>
             </div>
 
